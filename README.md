@@ -1,5 +1,32 @@
-# Getting Started with Create React App
+## Template Ecommerce
 
+Template Ecommerce com integração via Bling\
+Enconstra-se em fase de desenvolvimento
+
+![Tela Principal](screenshot/home.jpg)
+
+Cada produto adicionado ao carrinho\
+Dispara um toast na tela do usuário
+
+![Toast de Produto](screenshot/home-add-item.jpg)
+
+Tela mostra um pequeno detalhe rápido\
+Mostra uma lista de produtos no carrinho já adicionado
+
+![Carrinho pre visualizacao](screenshot/home-a.jpg)
+
+Mostra os itens no carrinho\
+Fase de desemvolvimento
+
+![Carrinho pre visualizacao](screenshot/home-b.jpg)
+
+Detalhes do produto\
+Mostra informaçoes e outras funcionalidade do produto visitado
+
+![Carrinho pre visualizacao](screenshot/produto-detalhes.jpg)
+
+<!--
+# Getting Started with Create React App
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -43,4 +70,4 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To learn React, check out the [React documentation](https://reactjs.org/). -->
