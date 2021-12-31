@@ -1,0 +1,28 @@
+@import './variables';
+
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'light': $light,
+  'dark': $dark,
+  'gray': #f1f1f1
+);
+  
+$input-bg: #fff;
+$body-bg: $secondary;
+$font-family-sans-serif: 'Dosis', sans-serif;
+  
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;400;700&display=swap');
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+@import '~@fortawesome/fontawesome-free/scss/regular.scss';
+@import '~@fortawesome/fontawesome-free/scss/brands.scss';
+
+@import '~bootstrap/scss/bootstrap.scss'
+
