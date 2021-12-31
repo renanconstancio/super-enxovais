@@ -13,17 +13,17 @@ Dispara um toast na tela do usuário
 Tela mostra um pequeno detalhe rápido\
 Mostra uma lista de produtos no carrinho já adicionado
 
-![Carrinho pre visualizacao](screenshot/home-a.jpg)
+![Carrinho Canvas](screenshot/carrinho-canvas.jpg)
 
 Mostra os itens no carrinho\
 Fase de desemvolvimento
 
-![Carrinho pre visualizacao](screenshot/home-b.jpg)
+![Carrinho de compras](screenshot/carrinho.jpg)
 
 Detalhes do produto\
 Mostra informaçoes e outras funcionalidade do produto visitado
 
-![Carrinho pre visualizacao](screenshot/produto-detalhes.jpg)
+![Visualizacao Produto](screenshot/produto-detalhes.jpg)
 
 <!--
 # Getting Started with Create React App

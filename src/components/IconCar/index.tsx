@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/display-name */
 import './style.scss';
 
-import { forwardRef } from 'react';
 import { useCarrinho } from '../../hooks/useCarrinho';
 import { formatPrice } from '../../utils/formart';
 
-const IconCar = forwardRef((_props, ref) => {
+const IconCar = (_props: any, ref: any) => {
   const { carrinho } = useCarrinho();
 
   const qtdeCar = carrinho?.reduce((sumQtde, product) => {
@@ -26,7 +23,7 @@ const IconCar = forwardRef((_props, ref) => {
       data-bs-toggle="offcanvas"
       data-bs-target="#carrinhoRight"
       aria-controls="carrinhoRight"
-      className="d-flex flex-row align-items-center justify-content-end"
+      className="text-primary d-flex flex-row align-items-center justify-content-end"
       style={{
         cursor: 'pointer'
       }}>
@@ -41,6 +38,6 @@ const IconCar = forwardRef((_props, ref) => {
       </div>
     </span>
   );
-});
+};
 
 export default IconCar;

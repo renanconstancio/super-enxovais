@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CarrinhoProvider } from './hooks/useCarrinho';
+import { ToastProvider } from './hooks/useToasts';
 
 import Home from './pages/Home';
 import Produto from './pages/Produto';
 
-// import { ToastProvider } from './hooks/useToasts';
-// import Cart from './pages/Cart';
+import Cart from './pages/Cart';
 
 // import Home from './pages/Home';
 // import Produto from './pages/Produto';
@@ -34,16 +34,16 @@ import Produto from './pages/Produto';
 const Router = () => {
   return (
     <BrowserRouter>
-      {/* <ToastProvider> */}
-      <CarrinhoProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/:string/:codigo/p" element={<Produto />} />
-          {/* <Route path="/produtos" element={<Produtos />} />
+      <ToastProvider>
+        <CarrinhoProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/:string/:codigo/p" element={<Produto />} />
+            {/* <Route path="/produtos" element={<Produtos />} />
         <Route path="/carrinho" element={<Cart />} /> */}
-        </Routes>
-      </CarrinhoProvider>
-      {/* </ToastProvider> */}
+          </Routes>
+        </CarrinhoProvider>
+      </ToastProvider>
     </BrowserRouter>
   );
 };

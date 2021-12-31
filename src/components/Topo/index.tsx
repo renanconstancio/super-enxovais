@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import { boasVindas } from '../../utils/boasVindas';
+import CarrinhoCanvas from '../CarrinhoCanvas';
 import IconCar from '../IconCar';
 import Search from '../Search';
 
 const Topo = () => {
   return (
     <header>
+      <CarrinhoCanvas />
       <section className="container-md d-block d-md-none bg-secondary py-2 fixed-top">
         <div className="row">
           <section className="col">
