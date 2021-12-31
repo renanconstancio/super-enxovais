@@ -3,7 +3,7 @@ import { useCarrinho } from '../../hooks/useCarrinho';
 import { ICarrinho } from '../../interfaces';
 import { formatPrice } from '../../utils/formart';
 
-const CarrinhoCanvas = (): JSX.Element => {
+const CarrinhoCanvas = () => {
   const navigate = useNavigate();
 
   const { carrinho, removeItem } = useCarrinho();

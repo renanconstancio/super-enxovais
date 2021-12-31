@@ -38,9 +38,9 @@ const Router = () => {
         <CarrinhoProvider>
           <Routes>
             <Route path="/" element={<Home />} />
+            {/* <Route path="/produtos" element={<Produtos />} />*/}
             <Route path="/:string/:codigo/p" element={<Produto />} />
-            {/* <Route path="/produtos" element={<Produtos />} />
-        <Route path="/carrinho" element={<Cart />} /> */}
+            <Route path="/carrinho" element={<Cart />} />
           </Routes>
         </CarrinhoProvider>
       </ToastProvider>

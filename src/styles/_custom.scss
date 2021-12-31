@@ -24,5 +24,8 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~@fortawesome/fontawesome-free/scss/regular.scss';
 @import '~@fortawesome/fontawesome-free/scss/brands.scss';
 
-@import '~bootstrap/scss/bootstrap.scss'
+@import '~bootstrap/scss/bootstrap.scss';
 
+a {
+  text-decoration: none;
+}

@@ -4,11 +4,23 @@ import Topo from '../../components/Topo';
 
 const Banners = lazy(() => import('../../components/Banners'));
 const Produtos = lazy(() => import('../../components/Produtos'));
+const Menu = lazy(() => import('../../components/Menu'));
 
 const Home = () => {
   return (
     <>
       <Topo />
+
+      <Suspense
+        fallback={
+          <section className="pt-2 pt-md-0 container-md">
+            <div className="row">
+              <div style={{ height: '55px' }} className="placeholder p-5"></div>
+            </div>
+          </section>
+        }>
+        <Menu />
+      </Suspense>
 
       <Suspense
         fallback={

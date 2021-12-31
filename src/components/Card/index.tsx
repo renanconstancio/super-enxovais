@@ -8,15 +8,25 @@ type CardTypes = {
   precoDe?: string | undefined;
   precoPor: string;
   codigo?: string;
-  itens?: any[];
   imagens?: IImagem[];
+  itens?: any;
+  addItemClick(args0?: string | number): void;
 };
 
-const Card = ({ id, descricao, precoDe, precoPor, imagens, codigo }: CardTypes) => {
-  // const addEvent = (ethis: any, e: any) => {
-  //   addItemClick(ethis);
-  //   e.preventDefault();
-  // };
+const Card = ({
+  id,
+  descricao,
+  precoDe,
+  precoPor,
+  imagens,
+  codigo,
+  itens,
+  addItemClick
+}: CardTypes) => {
+  const addEvent = (ethis: any, e: any) => {
+    addItemClick(ethis);
+    e.preventDefault();
+  };
 
   const formattedImage = imagens?.filter((_a, i) => i === 0);
 
@@ -38,7 +48,7 @@ const Card = ({ id, descricao, precoDe, precoPor, imagens, codigo }: CardTypes) 
         </p>
       </div>
 
-      {/* {codigo && (
+      {codigo && (
         <div
           onClick={(e) => addEvent(this, e)}
           className="fw-bold mb-3 bg-primary bg-opacity-75 text-white rounded d-flex justify-content"
@@ -51,7 +61,7 @@ const Card = ({ id, descricao, precoDe, precoPor, imagens, codigo }: CardTypes) 
 
           <span className="p-2">ADICIONAR AO CARRINHO</span>
         </div>
-      )} */}
+      )}
     </Link>
   );
 };

@@ -14,6 +14,7 @@ import { Helmet } from 'react-helmet';
 
 const ImageGallery = lazy(() => import('react-image-gallery'));
 const Titles = lazy(() => import('../../components/Titles'));
+const Menu = lazy(() => import('../../components/Menu'));
 
 import Topo from '../../components/Topo';
 import Rodape from '../../components/Rodape';
@@ -214,7 +215,16 @@ const Produto = () => {
 
       <Topo />
 
-      {/* <Menu /> */}
+      <Suspense
+        fallback={
+          <section className="pt-2 pt-md-0 container-md">
+            <div className="row">
+              <div style={{ height: '55px' }} className="placeholder p-5"></div>
+            </div>
+          </section>
+        }>
+        <Menu />
+      </Suspense>
 
       {/* varificação se tem encontrado o produto */}
       {loading.productExists ? (
