@@ -228,9 +228,9 @@ const Produto = () => {
 
       {/* varificação se tem encontrado o produto */}
       {loading.productExists ? (
-        <section className="mt-5 mt-md-0 pt-3 pt-md-0 pb-5 bg-white">
+        <section className="mt-5 mt-md-0 pt-3 pt-md-5 pb-5 bg-white">
           <div className="container-md">
-            <div className="row g-0 g-md-3 row-cols-12">
+            <div className="row row-cols-12">
               <Suspense
                 fallback={<div style={{ width: '100%' }} className="placeholder p-2"></div>}>
                 <Titles texto={product?.descricao} classe="h2 mb-4 d-block d-md-none" />
@@ -272,14 +272,14 @@ const Produto = () => {
 
                 <div className="mt-3 mx-0"></div>
 
-                {/* {variations &&
-                    variations?.map((rws, i) => (
-                      <GradeVariations
-                        key={i}
-                        data={rws}
-                        fromHandleGradeVariations={handleGradeVariations}
-                      />
-                    ))} */}
+                {variations &&
+                  variations?.map((rws, i) => (
+                    <GradeVariations
+                      key={i}
+                      data={rws}
+                      fromHandleGradeVariations={handleGradeVariations}
+                    />
+                  ))}
 
                 {/* <div
                     style={{
@@ -333,31 +333,6 @@ const Produto = () => {
       )}
       <Rodape />
     </>
-  );
-};
-
-const Teste = ({ data }: any) => {
-  return (
-    <div>
-      <strong>{data.nome}</strong>
-
-      {data?.children
-        .filter((f: any) => {
-          // console.log("children", f.children);
-          return f.nome === 'Azul';
-        })
-        .children.map((data0: any, i: number) => (
-          <span key={i}>{data0.nome}</span>
-        ))}
-
-      {/* {data?.children
-        .filter((f: any) => {
-          return f.nome === "Azul";
-        })
-        .map((data0: any) => (
-          <span>{data0.nome}</span>
-        ))} */}
-    </div>
   );
 };
 

@@ -14,12 +14,20 @@ const Topo = () => {
             <div className="dropdown">
               <span
                 className="btn btn-secondary"
+                id="clickMenuCanvas"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#menuCanvas"
+                aria-controls="menuCanvas">
+                <i className="fas fa-bars"></i>
+              </span>
+              {/* 
+              <span
+                className="btn btn-secondary"
                 id="dropdownMenu2"
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <i className="fas fa-bars"></i>
               </span>
-
               <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <li>
                   <button className="dropdown-item" type="button">
@@ -36,7 +44,7 @@ const Topo = () => {
                     Something else here
                   </button>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </section>
           <section className="col">

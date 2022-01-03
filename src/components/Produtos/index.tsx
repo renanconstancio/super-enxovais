@@ -59,6 +59,24 @@ const Produtos = () => {
 
   return (
     <>
+      {!products &&
+        [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <div className="col" key={i}>
+            <div className="card mb-3" aria-hidden="true">
+              <div className="card-body">
+                <span className="placeholder w-100 p-5">Loading</span>
+                <h5 className="card-title placeholder-glow">
+                  <span className="placeholder w-100">Loading</span>
+                </h5>
+                <p className="card-text placeholder-glow">
+                  <span className="placeholder d-block w-50">Loading</span>
+                  <span className="placeholder w-100 p-2">Loading</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+
       {products &&
         products.map((rws, i) => (
           <Card

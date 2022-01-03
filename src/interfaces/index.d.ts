@@ -64,7 +64,7 @@ export interface ICarrinho {
   descricao: string;
   preco: number;
   qtde: number;
-  image?: string;
+  image: string;
   variacao?: [];
 }
 
