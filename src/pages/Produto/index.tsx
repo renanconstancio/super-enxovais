@@ -71,57 +71,57 @@ const Produto = () => {
               p.produto.variacoes?.reduce((obj: any, { variacao: rws }) => {
                 keys = rws.nome.split(/[\\:\\;]+/);
 
-                if (keys[2] && keys[3])
-                  [keys[2], keys[3]].reduce((o, nome) => {
-                    temp = (o.children = o.children || []).find(
-                      (q: IVariacaoTree) => q.nome === nome
-                    );
-
-                    if (!temp)
-                      o.children.push(
-                        (temp = {
-                          nome: nome,
-                          codigo: rws.codigo,
-                          estoque: rws.estoqueAtual
-                        })
-                      );
-
-                    return temp;
-                  }, obj);
-
-                if (keys[0] && keys[1])
-                  [keys[3], keys[0], keys[1]].reduce((o, nome) => {
-                    temp = (o.children = o.children || []).find(
-                      (q: IVariacaoTree) => q.nome === nome
-                    );
-
-                    if (!temp)
-                      o.children.push(
-                        (temp = {
-                          nome: nome,
-                          codigo: rws.codigo,
-                          estoque: rws.estoqueAtual
-                        })
-                      );
-                    return temp;
-                  }, obj);
-
-                // keys.reduce((o, nome) => {
-                //   temp = (o.children = o.children || []).find(
-                //     (q: IVariacaoTree) => q.nome === nome
-                //   );
-
-                //   if (!temp)
-                //     o.children.push(
-                //       (temp = {
-                //         nome: nome,
-                //         codigo: rws.codigo,
-                //         estoque: rws.estoqueAtual,
-                //       })
+                // if (keys[2] && keys[3])
+                //   [keys[2], keys[3]].reduce((o, nome) => {
+                //     temp = (o.children = o.children || []).find(
+                //       (q: IVariacaoTree) => q.nome === nome
                 //     );
 
-                //   return temp;
-                // }, obj);
+                //     if (!temp)
+                //       o.children.push(
+                //         (temp = {
+                //           nome: nome,
+                //           codigo: rws.codigo,
+                //           estoque: rws.estoqueAtual
+                //         })
+                //       );
+
+                //     return temp;
+                //   }, obj);
+
+                // if (keys[0] && keys[1])
+                //   [keys[3], keys[0], keys[1]].reduce((o, nome) => {
+                //     temp = (o.children = o.children || []).find(
+                //       (q: IVariacaoTree) => q.nome === nome
+                //     );
+
+                //     if (!temp)
+                //       o.children.push(
+                //         (temp = {
+                //           nome: nome,
+                //           codigo: rws.codigo,
+                //           estoque: rws.estoqueAtual
+                //         })
+                //       );
+                //     return temp;
+                //   }, obj);
+
+                keys.reduce((o, nome) => {
+                  temp = (o.children = o.children || []).find(
+                    (q: IVariacaoTree) => q.nome === nome
+                  );
+
+                  if (!temp)
+                    o.children.push(
+                      (temp = {
+                        nome: nome,
+                        codigo: rws.codigo,
+                        estoque: rws.estoqueAtual
+                      })
+                    );
+
+                  return temp;
+                }, obj);
 
                 return obj;
               }, {} as IVariacaoTree).children
@@ -217,7 +217,7 @@ const Produto = () => {
 
       <Suspense
         fallback={
-          <section className="pt-2 pt-md-0 container-md">
+          <section className="container-md">
             <div className="row">
               <div style={{ height: '55px' }} className="placeholder p-5"></div>
             </div>
@@ -228,12 +228,12 @@ const Produto = () => {
 
       {/* varificação se tem encontrado o produto */}
       {loading.productExists ? (
-        <section className="mt-5 mt-md-0 pt-3 pt-md-5 pb-5 bg-white">
+        <section className="pb-5 pt-1 pt-md-5 bg-white">
           <div className="container-md">
             <div className="row row-cols-12">
               <Suspense
                 fallback={<div style={{ width: '100%' }} className="placeholder p-2"></div>}>
-                <Titles texto={product?.descricao} classe="h2 mb-4 d-block d-md-none" />
+                <Titles texto={product?.descricao} classe="h2 pt-3 mb-4 d-block d-md-none" />
               </Suspense>
 
               <div className="col-md-7">
@@ -272,22 +272,15 @@ const Produto = () => {
 
                 <div className="mt-3 mx-0"></div>
 
-                {variations &&
-                  variations?.map((rws, i) => (
-                    <GradeVariations
-                      key={i}
-                      data={rws}
-                      fromHandleGradeVariations={handleGradeVariations}
-                    />
-                  ))}
+                {!!variations && <GradeVariations data={variations} />}
 
                 {/* <div
-                    style={{
-                      whiteSpace: 'pre-wrap',
-                      wordBreak: 'keep-all'
-                    }}>
-                    {JSON.stringify({ A: variations }, null, '  ')}
-                  </div> */}
+                  style={{
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'keep-all'
+                  }}>
+                  {JSON.stringify(variations, null, '  ')}
+                </div> */}
 
                 <section className="mt-3">
                   <button
@@ -336,30 +329,71 @@ const Produto = () => {
   );
 };
 
-const GradeVariations = ({
-  data,
-  fromHandleGradeVariations: fromHandleChildren
-}: {
-  data: IVariacaoTree;
-  fromHandleGradeVariations(args: any): void;
-}) => {
+const Grade = ({ nome, children }: { nome: string; children?: any }) => {
   return (
-    <div className="grade">
-      <strong>{data.nome}</strong>
-      <div>
-        {data?.children?.map((data0, i) => (
-          <>
-            <span
-              key={i}
-              onClick={(e) => fromHandleChildren(data0)}
-              className={`${data0.estoque === 0 && 'out-of-stock'}`}>
-              {data0.nome}
-            </span>
-          </>
-        ))}
-      </div>
+    <div className="grade" key={0}>
+      <strong className="d-block">{nome}</strong>
+      {children}
     </div>
   );
 };
 
+const GradeVariations = ({ data }: { data: IVariacaoTree[] | undefined }) => {
+  return (
+    <>
+      {data &&
+        data.map((rws) => (
+          <Grade nome={rws.nome} key={0}>
+            {!!rws.children &&
+              rws.children.map((loop, ii) => (
+                <>
+                  <span key={`${0}_${ii}`} className={`${loop.estoque === 0 && 'out-of-stock'}`}>
+                    {loop.nome}
+                  </span>
+
+                  {!!loop.children && <GradeVariations data={loop.children} />}
+                </>
+              ))}
+          </Grade>
+        ))}
+    </>
+  );
+
+  // return (
+  //   <>
+  //     {data &&
+  //       data.map((rws) => (
+  //         <div className="grade" key={0}>
+  //           <strong>{rws.nome}</strong>
+  //           <div>
+  //             {rws?.children &&
+  //               rws.children.map((loop, ii) => (
+  //                 <>
+  //                   <span key={`${0}_${ii}`} className={`${loop.estoque === 0 && 'out-of-stock'}`}>
+  //                     {loop.nome}
+  //                   </span>
+  //                 </>
+  //               ))}
+  //           </div>
+  //         </div>
+  //       ))}
+  //   </>
+  // );
+};
+
+// <div className="grade">
+//   <strong>{data.nome}</strong>
+//   <div>
+//     {data?.children.map((data0, i) => (
+//       <>
+//         <span
+//           key={i}
+//           // onClick={(e) => fromHandleChildren(data0)}
+//           className={`${data0.estoque === 0 && 'out-of-stock'}`}>
+//           {data0.nome}
+//         </span>
+//       </>
+//     ))}
+//   </div>
+// </div>
 export default Produto;

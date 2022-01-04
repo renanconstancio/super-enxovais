@@ -2,57 +2,48 @@ import { Link } from 'react-router-dom';
 import { boasVindas } from '../../utils/boasVindas';
 import CarrinhoCanvas from '../CarrinhoCanvas';
 import IconCar from '../IconCar';
+import MenuCanvas from '../MenuCanvas';
 import Search from '../Search';
 
 const Topo = () => {
   return (
     <header>
+      <MenuCanvas />
       <CarrinhoCanvas />
       <section className="container-md d-block d-md-none bg-secondary py-2 fixed-top">
         <div className="row">
-          <section className="col">
+          <section className="col-3">
             <div className="dropdown">
               <span
-                className="btn btn-secondary"
+                className="btn btn-dark"
                 id="clickMenuCanvas"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#menuCanvas"
                 aria-controls="menuCanvas">
                 <i className="fas fa-bars"></i>
               </span>
-              {/* 
-              <span
-                className="btn btn-secondary"
-                id="dropdownMenu2"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <i className="fas fa-bars"></i>
-              </span>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <li>
-                  <button className="dropdown-item" type="button">
-                    Action
-                  </button>
-                </li>
-                <li>
-                  <button className="dropdown-item" type="button">
-                    Another action
-                  </button>
-                </li>
-                <li>
-                  <button className="dropdown-item" type="button">
-                    Something else here
-                  </button>
-                </li>
-              </ul> */}
             </div>
           </section>
-          <section className="col">
+          <section className="col-6 text-center">
             <Link to="/">
               <img src="/logo-mobile.png" alt="Logo Mobile" className="img-fluid" />
             </Link>
           </section>
-          <section className="col">1</section>
+          <section className="col-3">
+            <span
+              id="clickCarrinhoRight"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#carrinhoRight"
+              aria-controls="carrinhoRight"
+              className="text-primary d-flex flex-row align-items-center justify-content-end"
+              style={{
+                cursor: 'pointer'
+              }}>
+              <div className="p-1">
+                <i className="fas fa-shopping-cart fa-2x"></i>
+              </div>
+            </span>
+          </section>
         </div>
       </section>
 

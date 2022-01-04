@@ -1,11 +1,11 @@
 const Banners = () => {
   return (
-    <section className="bg-white">
-      <div className="pt-2 pt-sm-0 container-md pb-3">
+    <section className="bg-white pt-3 pt-md-0">
+      <div className="container-md pb-3">
         <div className="row">
           <div
             id="carouselExampleInterval"
-            className="carousel slide carousel-fade mt-5 mt-md-0"
+            className="carousel slide carousel-fade"
             data-bs-ride="carousel">
             <div className="carousel-inner">
               <div className="carousel-item active">

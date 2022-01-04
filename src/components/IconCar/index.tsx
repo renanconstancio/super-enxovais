@@ -18,6 +18,7 @@ const IconCar = (_props: any, ref: any) => {
 
   return (
     <span
+      // eslint-disable-next-line no-unused-vars
       ref={(_e) => ref}
       id="clickCarrinhoRight"
       data-bs-toggle="offcanvas"

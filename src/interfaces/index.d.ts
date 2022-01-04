@@ -26,7 +26,7 @@ export interface IVariacaoTree {
   nome: string;
   codigo: string;
   estoque: number;
-  children?: readonly IVariacaoTree[];
+  children?: IVariacaoTree[];
 }
 
 export interface IImagem {

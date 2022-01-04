@@ -49,9 +49,9 @@ const Carrinho = () => {
   }, 0);
 
   return (
-    <section className="bg-white pt-5 pb-5 mt-3 mt-md-0">
+    <section className="bg-white pt-3 pt-md-0">
       {totalQtde === 0 && (
-        <div className="container">
+        <div className="container-md">
           <div className="row w-100 align-items-center">
             <div className="col-lg-12 col-md-12 col-12">
               <h5 className="text-center">
@@ -64,9 +64,9 @@ const Carrinho = () => {
       )}
 
       {totalQtde > 0 && (
-        <div className="container">
-          <div className="row w-100 align-items-center">
-            <div className="col-lg-12 col-md-12 col-12">
+        <div className="container-md">
+          <div className="row align-items-center">
+            <div className="col-md-12 col-12">
               <h3 className="display-5 mb-2">Meu Carrinho</h3>
               <table
                 id="shoppingCart"
@@ -136,18 +136,17 @@ const Carrinho = () => {
               </div>
             </div>
           </div>
-          <div className="row mt-4 d-flex align-items-center">
-            <div className="col-sm-6 order-md-2 text-end">
-              <a
-                href="catalog.html"
-                className="btn btn-success mb-4 btn-lg pl-5 pr-5 text-uppercase">
-                Finalizar
-              </a>
-            </div>
-            <div className="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
-              <Link to="/" className="btn btn-link text-uppercase">
-                <i className="fas fa-arrow-left mr-2"></i> Continuar comprando
+          <div className="row justify-content-between mt-4 pb-5 align-items-center">
+            <div className="col-12 col-md-3 mb-1 text-start">
+              <Link to="/" className="btn btn-link btn-lg d-block text-uppercase mb-1">
+                <i className="fas fa-arrow-left me-2"></i> Continuar comprando
               </Link>
+            </div>
+
+            <div className="col-12 col-md-3 mb-1 text-end">
+              <a href="catalog.html" className="btn btn-success btn-lg d-block text-uppercase mb-1">
+                Finalizar Compra <i className="fas fa-arrow-right ms-2"></i>
+              </a>
             </div>
           </div>
         </div>

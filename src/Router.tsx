@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Produto from './pages/Produto';
 
 import Cart from './pages/Cart';
+import Login from './pages/Login';
 
 // import Home from './pages/Home';
 // import Produto from './pages/Produto';
@@ -41,6 +42,7 @@ const Router = () => {
             {/* <Route path="/produtos" element={<Produtos />} />*/}
             <Route path="/:string/:codigo/p" element={<Produto />} />
             <Route path="/carrinho" element={<Cart />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </CarrinhoProvider>
       </ToastProvider>

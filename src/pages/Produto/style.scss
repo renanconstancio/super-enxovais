@@ -46,4 +46,35 @@
       }
     }
   }
+
+  strong {
+    + span,
+    + span + span {
+      cursor          : pointer;
+      border-radius   : 0.5rem;
+      padding         : 0.5rem;
+      margin-right    : 0.5rem;
+      padding-top     : 0.2rem;
+      padding-bottom  : 0.2rem;
+      background-color: #f1f1f1;
+      text-transform  : uppercase;
+
+      &.out-of-stock {
+        position        : relative;
+        background-color: darken(#f1f1f1, 8%);
+        color           : darken(#f1f1f1, 24%);
+
+        &::after {
+          content  : "x";
+          display  : table;
+          position : absolute;
+          font-size: 9px;
+          bottom   : 0;
+          right    : 0;
+          margin   : 0.0925rem;
+          z-index  : 11;
+        }
+      }
+    }
+  }
 }
