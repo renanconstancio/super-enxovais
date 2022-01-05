@@ -1,9 +1,13 @@
 const Search = () => {
   return (
-    <div className="input-group input-group-lg">
-      <input type="text" className="form-control" placeholder="Buscar produtos..." />
+    <div className="input-group">
+      <input
+        type="text"
+        className="form-control form-control-lg"
+        placeholder="Buscar produtos..."
+      />
       <button className="btn btn-primary" type="button">
-        <i className="fas fa-search"></i>
+        <i className="fas fa-search text-white"></i>
       </button>
     </div>
   );

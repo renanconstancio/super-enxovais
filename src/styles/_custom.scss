@@ -1,4 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=GFS+Neohellenic:wght@700&Dosis:wght@200;400;700&display=swap');
 @import './variables';
+
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+@import '~@fortawesome/fontawesome-free/scss/regular.scss';
+@import '~@fortawesome/fontawesome-free/scss/brands.scss';
 
 $theme-colors: (
   'primary': $primary,
@@ -12,22 +19,15 @@ $theme-colors: (
   'dark': darken($secondary, 17%),
   'gray': #f1f1f1
 );
-  
+
 $input-bg: #fff;
 $body-bg: $secondary;
 $font-family-sans-serif: 'Dosis', sans-serif;
-  
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
-
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;400;700&display=swap');
-@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
-@import '~@fortawesome/fontawesome-free/scss/solid.scss';
-@import '~@fortawesome/fontawesome-free/scss/regular.scss';
-@import '~@fortawesome/fontawesome-free/scss/brands.scss';
+$input-focus-box-shadow: none;
 
 @import '~bootstrap/scss/bootstrap.scss';
 
-body{
+body {
   @media (max-width: 767px) {
     padding-top: 55px;
   }
@@ -35,4 +35,13 @@ body{
 
 a {
   text-decoration: none;
+}
+
+h6,
+h5,
+h4,
+h3,
+h2,
+h1 {
+  font-family: 'GFS Neohellenic', sans-serif;
 }

@@ -24,16 +24,16 @@ const IconCar = (_props: any, ref: any) => {
       data-bs-toggle="offcanvas"
       data-bs-target="#carrinhoRight"
       aria-controls="carrinhoRight"
-      className="text-primary d-flex flex-row align-items-center justify-content-end"
+      className="d-flex align-items-center justify-content-end text-primary"
       style={{
         cursor: 'pointer'
       }}>
-      <div className="p-1">
-        <i className="fas fa-shopping-bag fa-3x"></i>
+      <div className="flex-shrink-0">
+        <i className="fas fa-shopping-bag fa-2x"></i>
       </div>
-      <div className="p-1 d-flex flex-column">
-        <strong className="text-uppercase">meu carrinho</strong>
-        <small className="">
+      <div className="flex-grow-1 ms-3" style={{ lineHeight: '18px' }}>
+        <strong className="text-uppercase d-block">meu carrinho</strong>
+        <small>
           {qtdeCar} item | {precoCar}
         </small>
       </div>

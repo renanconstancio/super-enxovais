@@ -1,45 +1,55 @@
 import './style.scss';
 
 import { useLocation } from 'react-router-dom';
-import { TMenusTree } from '../../interfaces';
+import { useEffect, useState } from 'react';
+import { IBling, ICategoria, ICategorias, TCategoriaProps } from '../../interfaces';
+import api from '../../api/api';
+
+const makeTree = (nodes: any, parentId: any) => {
+  return nodes
+    .filter((node: any) => node.categoria.idCategoriaPai === parentId)
+    .reduce(
+      (tree: any, node: any) => [
+        ...tree,
+        {
+          ...node,
+          children: makeTree(nodes, node.categoria.id)
+        }
+      ],
+      []
+    );
+};
 
 const Menu = () => {
-  const menus: TMenusTree[] = [
-    {
-      id: 'menu-a',
-      text: 'menu AA',
-      data: [
-        {
-          id: 'menu-a',
-          text: 'menu a'
-        },
-        {
-          id: 'menu-b',
-          text: 'menu b'
-        },
-        {
-          id: 'menu-b',
-          text: 'menu b'
-        }
-      ]
-    },
-    {
-      id: 'menu-b',
-      text: 'menu b'
-    },
-    {
-      id: 'menu-d',
-      text: 'menu d'
-    },
-    {
-      id: 'menu-c',
-      text: 'menu c'
-    }
-  ] as TMenusTree[];
-
   const { pathname } = useLocation();
 
   const page = pathname.split('/')[1];
+
+  const [menus, setMenus] = useState<TCategoriaProps[]>();
+
+  useEffect(() => {
+    const loadMenus = async () => {
+      try {
+        const {
+          data: {
+            retorno: { categorias }
+          }
+        } = await api.get<IBling<ICategorias<ICategoria<TCategoriaProps>>>>(
+          `/categorias/json?apikey=${process.env.REACT_APP_API_KEY}`
+        );
+
+        const formattedCategorias = makeTree(categorias, 'id');
+
+        console.log(formattedCategorias);
+
+        setMenus([]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadMenus();
+  }, []);
 
   return (
     <>
@@ -48,7 +58,7 @@ const Menu = () => {
           <div className="container">
             <div className="row">
               <div className="d-flex flex-row justify-content-between align-self-center menu">
-                {menus.map((v, i) => (
+                {/* {menus.map((v, i) => (
                   <div className="menu-item pt-2 pb-2 pe-4 ps-4" key={`menu-item_${i}`}>
                     {v.text}
                     {v.data?.length && (
@@ -63,7 +73,7 @@ const Menu = () => {
                       </div>
                     )}
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
           </div>

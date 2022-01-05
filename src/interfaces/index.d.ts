@@ -2,6 +2,20 @@ export interface IBling<T> {
   retorno: T;
 }
 
+export interface ICategorias<T> {
+  categorias: T[];
+}
+
+export interface ICategoria<T> {
+  categoria: T;
+}
+
+export interface TCategoriaProps {
+  id: string;
+  categoria: string;
+  idCategoriaPai?: string;
+}
+
 export interface IProdutos<T> {
   produtos: T[];
 }
@@ -43,6 +57,8 @@ export interface IProdutoProps {
   precoCusto?: number;
   marca?: string;
   descricaoCurta?: string;
+  descricaoComplementar?: string;
+  observacoes?: string;
   qtde?: number;
   pesoBruto?: number;
   larguraProduto?: string;
@@ -77,9 +93,3 @@ export interface ICarrinho {
 // export // interface IMenu {
 // //   data: [];
 // // }
-
-export interface TMenusTree {
-  id: string;
-  text: string;
-  data?: readonly TMenusTree[];
-}

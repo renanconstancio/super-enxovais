@@ -11,8 +11,8 @@ const Topo = () => {
       <MenuCanvas />
       <CarrinhoCanvas />
       <section className="container-md d-block d-md-none bg-secondary py-2 fixed-top">
-        <div className="row">
-          <section className="col-3">
+        <div className="row justify-content-between align-items-center">
+          <section className="col-2">
             <div className="dropdown">
               <span
                 className="btn btn-dark"
@@ -29,28 +29,32 @@ const Topo = () => {
               <img src="/logo-mobile.png" alt="Logo Mobile" className="img-fluid" />
             </Link>
           </section>
-          <section className="col-3">
+          <section className="col-4 align-middle">
+            <span className="btn btn-sm">
+              <i className="fas fa-search text-primary" style={{ fontSize: '20px' }}></i>
+            </span>
             <span
+              className="btn btn-sm"
               id="clickCarrinhoRight"
               data-bs-toggle="offcanvas"
               data-bs-target="#carrinhoRight"
-              aria-controls="carrinhoRight"
-              className="text-primary d-flex flex-row align-items-center justify-content-end"
-              style={{
-                cursor: 'pointer'
-              }}>
-              <div className="p-1">
-                <i className="fas fa-shopping-cart fa-2x"></i>
-              </div>
+              aria-controls="carrinhoRight">
+              <i
+                className="fas fa-shopping-cart text-primary"
+                style={{
+                  fontSize: '20px'
+                }}></i>
             </span>
           </section>
         </div>
       </section>
 
-      <section className="d-none d-md-block bg-gray py-1">
+      <section
+        className="d-none d-md-block bg-gray text-uppercase p-1"
+        style={{ fontSize: '0.8rem' }}>
         <div className="container-md">
           <div className="row text-center">
-            <div className="col">{boasVindas()}</div>
+            <div className="col">{boasVindas()} visitante</div>
             <div className="col">Meus pedidos</div>
             <div className="col">Rastreio</div>
           </div>
@@ -59,18 +63,36 @@ const Topo = () => {
 
       <section className="d-none d-md-block bg-white py-2">
         <div className="container-md">
-          <div className="row align-items-center">
-            <div className="col-2">
+          <div className="row align-items-center justify-content-between">
+            <section className="col-2">
               <Link to="/">
                 <img src="/logo.png" alt="Logo Desktop" className="img-fluid" />
               </Link>
-            </div>
-            <div className="col">
+            </section>
+            <section className="col-6">
               <Search />
-            </div>
-            <div className="col">
+            </section>
+            <section className="col-2">
+              <div className="d-flex align-items-center">
+                <div className="flex-shrink-0">
+                  <i className="far fa-user-circle text-primary fa-2x"></i>
+                </div>
+                <div className="flex-grow-1 ms-3" style={{ lineHeight: '18px' }}>
+                  Faça{' '}
+                  <Link className="btn-link fw-bold" to="/login">
+                    login
+                  </Link>{' '}
+                  ou <br />
+                  crie seu{' '}
+                  <Link className="btn-link fw-bold" to="/login">
+                    Cadastro
+                  </Link>
+                </div>
+              </div>
+            </section>
+            <section className="col-2">
               <IconCar />
-            </div>
+            </section>
           </div>
         </div>
       </section>

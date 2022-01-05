@@ -33,7 +33,7 @@ const Card = ({
 
   return (
     <Link className="col" to={`${slugiFy(descricao)}/${codigo}/p`}>
-      <div className="card p-3 shadow-md mb-3 rounded-0">
+      <div className="card shadow-md mb-3 rounded-0">
         {formattedImage?.length && (
           <img
             src={`${formattedImage[0].link}`}
@@ -43,9 +43,9 @@ const Card = ({
         )}
 
         <div className="card-body">
-          <h5 className="card-title">{descricao}</h5>
+          <strong className="card-title">{descricao}</strong>
           <p className="card-text">
-            {precoDe && <s className="d-block fs-6">DE R$: {precoDe}</s>}
+            {precoDe && <s className="d-block">DE R$: {precoDe}</s>}
             <strong className="text-danger fs-5">POR {precoPor}</strong>
           </p>
         </div>
@@ -53,7 +53,7 @@ const Card = ({
         {codigo && (
           <div
             onClick={(e) => addEvent(this, e)}
-            className="fw-bold mb-3 bg-primary bg-opacity-75 text-white rounded d-flex justify-content"
+            className="fw-bold m-1 bg-primary bg-opacity-75 text-white rounded d-flex justify-content"
             style={{
               cursor: 'pointer'
             }}>
@@ -61,7 +61,9 @@ const Card = ({
               <i className="fas fa-cart-plus"></i> {itens[id] ? itens[id] : 0}
             </span>
 
-            <span className="p-2">ADICIONAR AO CARRINHO</span>
+            <span className="p-2">
+              ADICIONAR <span className="d-none d-sm-inline">AO CARRINHO</span>
+            </span>
           </div>
         )}
       </div>

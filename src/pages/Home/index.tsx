@@ -38,6 +38,7 @@ const Home = () => {
           <div className="row">
             <div className="col-12">
               <h1 className="fw-bold text-uppercase">Produtos em Destaque</h1>
+              <div className="border-bottom mb-3"></div>
             </div>
           </div>
           <div className="row row-cols-2 row-cols-md-4 g-1 g-md-3">

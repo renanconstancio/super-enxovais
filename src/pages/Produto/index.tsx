@@ -13,11 +13,12 @@ import { useCarrinho } from '../../hooks/useCarrinho';
 import { Helmet } from 'react-helmet';
 
 const ImageGallery = lazy(() => import('react-image-gallery'));
-const Titles = lazy(() => import('../../components/Titles'));
 const Menu = lazy(() => import('../../components/Menu'));
 
 import Topo from '../../components/Topo';
 import Rodape from '../../components/Rodape';
+import ReactInputMask from 'react-input-mask';
+import { textToHtml } from '../../utils/textToHtml';
 
 type TImgFormatted = {
   thumbnail: string;
@@ -89,73 +90,44 @@ const Produto = () => {
                 //     return temp;
                 //   }, obj);
 
-                // if (keys[0] && keys[1])
-                //   [keys[3], keys[0], keys[1]].reduce((o, nome) => {
-                //     temp = (o.children = o.children || []).find(
-                //       (q: IVariacaoTree) => q.nome === nome
-                //     );
-
-                //     if (!temp)
-                //       o.children.push(
-                //         (temp = {
-                //           nome: nome,
-                //           codigo: rws.codigo,
-                //           estoque: rws.estoqueAtual
-                //         })
-                //       );
-                //     return temp;
-                //   }, obj);
-
-                keys.reduce((o, nome) => {
-                  temp = (o.children = o.children || []).find(
-                    (q: IVariacaoTree) => q.nome === nome
-                  );
-
-                  if (!temp)
-                    o.children.push(
-                      (temp = {
-                        nome: nome,
-                        codigo: rws.codigo,
-                        estoque: rws.estoqueAtual
-                      })
+                if (keys[0] && keys[1])
+                  [keys[2], keys[3], keys[0], keys[1]].reduce((o, nome) => {
+                    temp = (o.children = o.children || []).find(
+                      (q: IVariacaoTree) => q.nome === nome
                     );
 
-                  return temp;
-                }, obj);
+                    if (!temp)
+                      o.children.push(
+                        (temp = {
+                          nome: nome,
+                          codigo: rws.codigo,
+                          estoque: rws.estoqueAtual
+                        })
+                      );
+                    return temp;
+                  }, obj);
+
+                //
+                // keys.reduce((o, nome) => {
+                //   temp = (o.children = o.children || []).find(
+                //     (q: IVariacaoTree) => q.nome === nome
+                //   );
+
+                //   if (!temp)
+                //     o.children.push(
+                //       (temp = {
+                //         nome: nome,
+                //         codigo: rws.codigo,
+                //         estoque: rws.estoqueAtual
+                //       })
+                //     );
+
+                //   return temp;
+                // }, obj);
 
                 return obj;
               }, {} as IVariacaoTree).children
             ),
-
-            // variacoesFormatted: Object.values(
-            //   p.produto.variacoes?.reduce((acc: any, { variacao: obj }, i) => {
-            //     // converte uma string em array
-            //     keys = obj.nome.split(/[\\:\\;]+/);
-
-            //     key = slugiFy(`${keys[3]} ${keys[2]}`);
-            //     key1 = slugiFy(`${[keys[1]]} ${keys[3]} ${keys[2]}`);
-
-            //     children[key1] = {
-            //       id: keys[0],
-            //       nome: keys[1],
-            //       codigo: obj.codigo,
-            //     };
-
-            //     if (!acc[key]) acc[key] = [];
-
-            //     chlidOld = acc[key].children ? acc[key].children : [];
-
-            //     acc[key] = {
-            //       id: keys[2],
-            //       nome: keys[3],
-            //       codigo: obj.codigo,
-            //       children: [...chlidOld, children[key1]],
-            //     };
-
-            //     return acc;
-            //   }, {})
-            // ),
-
             imagemFormatted:
               p.produto?.imagem?.map((pi) => {
                 return {
@@ -185,14 +157,14 @@ const Produto = () => {
     loadProducts();
   }, [codigo, setLoading]);
 
-  const handleGradeVariations = (data: IVariacaoTree) => {
-    console.log('data', data);
-    product?.variacoes
-      ?.filter(({ variacao: p }) => p.codigo === data.codigo)
-      .map(({ variacao: r }) => {
-        console.log('r', r);
-      });
-  };
+  // const handleGradeVariations = (data: IVariacaoTree) => {
+  //   console.log('data', data);
+  //   product?.variacoes
+  //     ?.filter(({ variacao: p }) => p.codigo === data.codigo)
+  //     .map(({ variacao: r }) => {
+  //       console.log('r', r);
+  //     });
+  // };
 
   // return (
   //   <>
@@ -230,13 +202,21 @@ const Produto = () => {
       {loading.productExists ? (
         <section className="pb-5 pt-1 pt-md-5 bg-white">
           <div className="container-md">
-            <div className="row row-cols-12">
-              <Suspense
-                fallback={<div style={{ width: '100%' }} className="placeholder p-2"></div>}>
-                <Titles texto={product?.descricao} classe="h2 pt-3 mb-4 d-block d-md-none" />
-              </Suspense>
+            <div className="row row-cols-12 justify-content-between">
+              <h1 className="h2 mb-3 col-12">{product?.descricao}</h1>
 
-              <div className="col-md-7">
+              <div className="col-md-5">
+                <small className="d-block mb-3 text-uppercase">
+                  <i className="fas fa-star ms-1"></i>
+                  <i className="fas fa-star ms-1"></i>
+                  <i className="fas fa-star ms-1"></i>
+                  <i className="fas fa-star-half-alt ms-1"></i>
+                  <i className="far fa-star ms-1"></i>
+                  <span className="ms-2">(3.3) 18 avaliações</span>
+                  <i className="fas fa-heart ms-2"></i>
+                  <i className="fas fa-share ms-2"></i>
+                </small>
+
                 <Suspense
                   fallback={
                     <div
@@ -254,25 +234,13 @@ const Produto = () => {
                 </Suspense>
               </div>
 
-              <div className="col-md-5 border rounded p-3 shadow-md">
-                <h1 className="h2 mb-0 d-none d-md-block">{product?.descricao}</h1>
-                <small>COD: {variations?.filter((r) => r.codigo === product?.codigo)}</small>
-
-                <small className="d-block mt-2 text-uppercase">
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star-half-alt"></i>
-                  <i className="far fa-star"></i>
-
-                  <span>(3.3) 18 avaliações</span>
-                </small>
-                <span className="d-block border-bottom mt-2 mb-3"></span>
+              <div className="col-md-5 border-top p-3 shadow-md">
+                {/* <small>COD: {variations?.filter((r) => r.codigo === product?.codigo)}</small>{' '} */}
+                {/* <span className="d-block border-bottom mt-2 mb-3"></span> */}
                 <span className="text-danger h3">{product?.precoFormatted}</span>
-
                 <div className="mt-3 mx-0"></div>
 
-                {!!variations && <GradeVariations data={variations} />}
+                {/* {!!variations && <GradeVariations data={variations} key={0} />} */}
 
                 {/* <div
                   style={{
@@ -290,6 +258,52 @@ const Produto = () => {
                   </button>
                 </section>
               </div>
+              <div className="col-md-12 border-bottom mt-3 mb-3"></div>
+              <div className="col-md-4">
+                <h4>Consultar frete e prazo de entrega</h4>
+                <div className="form-group mt-3 mb-4">
+                  <ReactInputMask
+                    mask="99999-999"
+                    type={'tel'}
+                    className="form-control"
+                    id="inputCep"
+                    placeholder="Digite seu CEP"
+                    style={{ width: 'auto' }}
+                  />
+                  <label htmlFor="inputCep" className="form-control-placeholder">
+                    Digite seu CEP
+                  </label>
+                </div>
+              </div>
+
+              {!!product?.descricaoCurta && (
+                <>
+                  <div className="col-md-12 border-bottom mt-3 mb-3"></div>
+                  <div className="col-md-8">
+                    <h4>Descrição</h4>
+
+                    {textToHtml(product.descricaoCurta)}
+                  </div>
+                </>
+              )}
+              {!!product?.descricaoComplementar && (
+                <>
+                  <div className="col-md-12 border-bottom mt-3 mb-3"></div>
+                  <div className="col-md-8">
+                    <h4>Informações Técnicas</h4>
+                    {textToHtml(product.descricaoComplementar)}
+                  </div>
+                </>
+              )}
+              {!!product?.observacoes && (
+                <>
+                  <div className="col-md-12 border-bottom mt-3 mb-3"></div>
+                  <div className="col-md-8">
+                    <h4>Outras informações</h4>
+                    {textToHtml(product.observacoes)}
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <Helmet>
@@ -329,71 +343,61 @@ const Produto = () => {
   );
 };
 
-const Grade = ({ nome, children }: { nome: string; children?: any }) => {
-  return (
-    <div className="grade" key={0}>
-      <strong className="d-block">{nome}</strong>
-      {children}
-    </div>
-  );
-};
+// let i = 1;
+// const GradeVariations = ({ data }: { data: IVariacaoTree[] | undefined }) => {
+//   return (
+//     <>
+//       <div className="grade" key={`grade_${i++}`}>
+//         {!!data &&
+//           data.map((rws) => (
+//             <>
+//               <strong className="d-block">{rws.nome}</strong>
+//               {!!rws.children &&
+//                 rws.children.map((loop, i) => (
+//                   <span key={`span_${i}`} className={`${loop.estoque === 0 && 'out-of-stock'}`}>
+//                     {loop.nome}
+//                   </span>
+//                 ))}
+//             </>
+//           ))}
+//       </div>
 
-const GradeVariations = ({ data }: { data: IVariacaoTree[] | undefined }) => {
-  return (
-    <>
-      {data &&
-        data.map((rws) => (
-          <Grade nome={rws.nome} key={0}>
-            {!!rws.children &&
-              rws.children.map((loop, ii) => (
-                <>
-                  <span key={`${0}_${ii}`} className={`${loop.estoque === 0 && 'out-of-stock'}`}>
-                    {loop.nome}
-                  </span>
+//       {!!data &&
+//         data.map((rws1) => (
+//           <>
+//             {!!rws1.children &&
+//               rws1.children.map((loop1, ii) => (
+//                 <>{!!loop1.children && <GradeVariations data={loop1.children} key={ii} />}</>
+//               ))}
+//           </>
+//         ))}
+//     </>
+//   );
+// };
 
-                  {!!loop.children && <GradeVariations data={loop.children} />}
-                </>
-              ))}
-          </Grade>
-        ))}
-    </>
-  );
-
-  // return (
-  //   <>
-  //     {data &&
-  //       data.map((rws) => (
-  //         <div className="grade" key={0}>
-  //           <strong>{rws.nome}</strong>
-  //           <div>
-  //             {rws?.children &&
-  //               rws.children.map((loop, ii) => (
-  //                 <>
-  //                   <span key={`${0}_${ii}`} className={`${loop.estoque === 0 && 'out-of-stock'}`}>
-  //                     {loop.nome}
-  //                   </span>
-  //                 </>
-  //               ))}
-  //           </div>
-  //         </div>
-  //       ))}
-  //   </>
-  // );
-};
-
-// <div className="grade">
-//   <strong>{data.nome}</strong>
-//   <div>
-//     {data?.children.map((data0, i) => (
+// <Grade nome={rws.nome} key={0}>
+//   {!!rws.children &&
+//     rws.children.map((loop, ii) => (
 //       <>
-//         <span
-//           key={i}
-//           // onClick={(e) => fromHandleChildren(data0)}
-//           className={`${data0.estoque === 0 && 'out-of-stock'}`}>
-//           {data0.nome}
-//         </span>
+//         {loop.children ? (
+//           <GradeVariations data={loop.children} />
+//         ) : (
+//           <span key={`${0}_${ii}`} className={`${loop.estoque === 0 && 'out-of-stock'}`}>
+//             {loop.nome}
+//           </span>
+//         )}
 //       </>
 //     ))}
-//   </div>
-// </div>
+
+//   {rws.children?.length === 0 ? (
+//     rws.children.map((loop, ii) => (
+//       <span key={`${0}_${ii}`} className={`${loop.estoque === 0 && 'out-of-stock'}`}>
+//         {loop.nome}
+//       </span>
+//     ))
+//   ) : (
+//     <>{rws.nome}</>
+//   )}
+// </Grade>
+
 export default Produto;
