@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-// console.log('process.env.REACT_APP_PROXY_URL', process.env.REACT_APP_PROXY_URL);
+console.log('process.env.REACT_APP_PROXY_URL', process.env.REACT_APP_PROXY_URL);
 // console.log('process.env.HOST', process.env.HOST);
 
 axios.defaults.baseURL =
