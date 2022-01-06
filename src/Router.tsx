@@ -1,49 +1,34 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CarrinhoProvider } from './hooks/useCarrinho';
 import { ToastProvider } from './hooks/useToasts';
 
-import Home from './pages/Home';
-import Produto from './pages/Produto';
+const Home = lazy(() => import('./pages/Home'));
+const Produto = lazy(() => import('./pages/Produto'));
+const Produtos = lazy(() => import('./pages/Produtos'));
 
-import Cart from './pages/Cart';
-import Login from './pages/Login';
-
-// import Home from './pages/Home';
-// import Produto from './pages/Produto';
-// import Produtos from './pages/Produtos';
-
-/* 
-<Route path="/logout" component={LogOut} exact />
-<Route path="/login" component={LogIn} exact />
-<Route path="/relatorios" component={Dashboard} exact />
-
-<Route path="/produtos" component={ListProdutos} exact />
-<Route
-  component={EditProdutos}
-  path={["/produtos/edit/:id", "/produtos/new"]}
-  exact
-/>
-
-<Route path="/marcas" component={ListMarcas} exact />
-<Route
-  component={EditMarcas}
-  path={["/marcas/edit/:id", "/marcas/new"]}
-  exact
-/> 
-*/
+const Cart = lazy(() => import('./pages/Cart'));
+const Login = lazy(() => import('./pages/Login'));
+import Loading from './components/Loading';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <ToastProvider>
         <CarrinhoProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            {/* <Route path="/produtos" element={<Produtos />} />*/}
-            <Route path="/:string/:codigo/p" element={<Produto />} />
-            <Route path="/carrinho" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+
+              <Route path="/:categoria" element={<Produtos />} />
+              <Route path="/:categoria/:categoria" element={<Produtos />} />
+
+              <Route path="/:string-:codigo.html" element={<Produto />} />
+
+              <Route path="/carrinho" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </Suspense>
         </CarrinhoProvider>
       </ToastProvider>
     </BrowserRouter>

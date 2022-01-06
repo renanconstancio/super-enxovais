@@ -1,23 +1,17 @@
 import './style.scss';
 
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { IBling, ICategoria, ICategorias, TCategoriaProps } from '../../interfaces';
-import api from '../../api/api';
 
-const makeTree = (nodes: any, parentId: any) => {
-  return nodes
-    .filter((node: any) => node.categoria.idCategoriaPai === parentId)
-    .reduce(
-      (tree: any, node: any) => [
-        ...tree,
-        {
-          ...node,
-          children: makeTree(nodes, node.categoria.id)
-        }
-      ],
-      []
-    );
+import api from '../../api/api';
+import { IBling, ICategoria, ICategorias, TCategoriaProps } from '../../interfaces';
+import { slugiFy } from '../../utils/slugiFy';
+
+type TGetTree = {
+  id: string;
+  categoria: string;
+  idCategoriaPai: string;
+  children?: TGetTree[];
 };
 
 const Menu = () => {
@@ -25,7 +19,7 @@ const Menu = () => {
 
   const page = pathname.split('/')[1];
 
-  const [menus, setMenus] = useState<TCategoriaProps[]>();
+  const [menus, setMenus] = useState<TGetTree[]>();
 
   useEffect(() => {
     const loadMenus = async () => {
@@ -38,11 +32,21 @@ const Menu = () => {
           `/categorias/json?apikey=${process.env.REACT_APP_API_KEY}`
         );
 
-        const formattedCategorias = makeTree(categorias, 'id');
+        const categoriasReduce = categorias.reduce(
+          (tree: any, node: any) => [
+            ...tree,
+            {
+              id: node.categoria.id,
+              categoria: node.categoria.descricao,
+              idCategoriaPai: node.categoria.idCategoriaPai
+            }
+          ],
+          []
+        );
 
-        console.log(formattedCategorias);
+        const formattedCategorias = getTree(categoriasReduce, 'idCategoriaPai');
 
-        setMenus([]);
+        setMenus(formattedCategorias[0].children);
       } catch (error) {
         console.log(error);
       }
@@ -51,14 +55,49 @@ const Menu = () => {
     loadMenus();
   }, []);
 
-  return (
-    <>
-      {['carrinho'].indexOf(page) === -1 && (
-        <nav className="bg-secondary d-none d-md-block">
-          <div className="container">
-            <div className="row">
-              <div className="d-flex flex-row justify-content-between align-self-center menu">
-                {/* {menus.map((v, i) => (
+  const getTree = (arr: any, p = 'parent_id') =>
+    arr.reduce((o: any, n: any) => {
+      if (!o[n.id]) o[n.id] = {};
+      if (!o[n[p]]) o[n[p]] = {};
+      if (!o[n[p]].children) o[n[p]].children = [];
+      if (o[n.id].children) n.children = o[n.id].children;
+      o[n[p]].children.push(n);
+      o[n.id] = n;
+      return o;
+    }, {} as TCategoriaProps);
+
+  const CategoriaMenuTree = ({ node }: any) => {
+    return (
+      <Link to={`/${slugiFy(node.categoria)}`} className="pt-2 pb-2 pe-4 ps-4 menu-item">
+        {node.categoria}
+        {!!node.children && (
+          <div className="sub-menu">
+            {node.children.map((v1: TCategoriaProps, i1: number) => (
+              <SubCategoriaMenuTree node={v1} key={i1} />
+            ))}
+          </div>
+        )}
+      </Link>
+    );
+  };
+
+  const SubCategoriaMenuTree = ({ node }: any) => {
+    return (
+      <div className="sub-menu-item">
+        {node.categoria}
+        {!!node.children && (
+          <Link to="/" className="sub-menu">
+            {node.children.map((v1: TCategoriaProps, i1: number) => (
+              <SubCategoriaMenuTree node={v1} key={i1} />
+            ))}
+          </Link>
+        )}
+      </div>
+    );
+  };
+
+  {
+    /* {menus.map((v, i) => (
                   <div className="menu-item pt-2 pb-2 pe-4 ps-4" key={`menu-item_${i}`}>
                     {v.text}
                     {v.data?.length && (
@@ -73,8 +112,18 @@ const Menu = () => {
                       </div>
                     )}
                   </div>
-                ))} */}
-              </div>
+                ))} */
+  }
+
+  return (
+    <>
+      {['carrinho'].indexOf(page) === -1 && (
+        <nav className="bg-secondary d-none d-md-block">
+          <div className="container">
+            <div className="row">
+              <section className="d-flex flex-row justify-content-between align-self-center menu">
+                {!!menus && menus.map((rws, i) => <CategoriaMenuTree node={rws} key={i} />)}
+              </section>
             </div>
           </div>
         </nav>

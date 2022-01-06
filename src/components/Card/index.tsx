@@ -32,7 +32,7 @@ const Card = ({
   const formattedImage = imagens?.filter((_a, i) => i === 0);
 
   return (
-    <Link className="col" to={`${slugiFy(descricao)}/${codigo}/p`}>
+    <Link className="col" to={`/${slugiFy(descricao)}-${codigo}.html`}>
       <div className="card shadow-md mb-3 rounded-0">
         {formattedImage?.length && (
           <img

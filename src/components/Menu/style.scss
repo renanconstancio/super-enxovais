@@ -1,32 +1,44 @@
-@import "../../styles/variables";
+@import '../../styles/variables';
 .menu {
   position: relative;
   > .menu-item {
     font-weight: 700;
     text-transform: uppercase;
     > .sub-menu {
-      cursor: default;
-      font-weight: normal;
       position: absolute;
       top: 100%;
-      left: 0;
+      left: 0.75rem;
+      right: 0.75rem;
       margin: 0;
       margin-top: -1px;
-      background-color: #fff;
+      cursor: default;
       z-index: 999;
-      width: 100%;
+
+      padding: 0.75rem;
+
+      font-size: 75%;
+      font-weight: normal;
+      background-color: #fff;
+
       border-style: solid;
       border-color: $secondary;
       border-width: 1px 1px 1px 1px;
+
       -webkit-box-shadow: 5px 5px 10px rgba(#000, 0.5);
       -moz-box-shadow: 5px 5px 10px rgba(#000, 0.5);
       -o-box-shadow: 5px 5px 10px rgba(#000, 0.5);
       box-shadow: 5px 5px 10px rgba(#000, 0.5);
+
+      display: none !important;
       // -webkit-transition: opacity 0.25s ease-in;
       // -moz-transition: opacity 0.25s ease-in;
       // -o-transition: opacity 0.25s ease-in;
       // transition: opacity 0.25s ease-in;
-      display: none !important;
+      .sub-menu-item {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        float: left;
+      }
     }
     &:hover {
       cursor: pointer;

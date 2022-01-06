@@ -26,14 +26,18 @@ const MenuCanvas = () => {
       </div>
       <div className="offcanvas-body">
         <div className="list-group list-group-flush">
-          <NavLink to="/produtos" className="list-group-item">
-            <i className="fas fa-list"></i> Produtos
-          </NavLink>
+          <span className="list-group-item">
+            <i className="fas fa-list"></i> Menus/Categorias
+          </span>
+
           <NavLink to="/" className="list-group-item">
             <i className="fas fa-home"></i> Inicio
           </NavLink>
           <NavLink to="/login" className="list-group-item">
             <i className="fas fa-sign-in-alt"></i> Login
+          </NavLink>
+          <NavLink to="/rastreio" className="list-group-item">
+            <i className="fas fa-gifts"></i> Rastreie seu Pedido
           </NavLink>
         </div>
         {/* 

@@ -14,7 +14,7 @@ const Login = () => {
             <div className="col border-end">
               <form className="mb-3 p-0 p-md-5">
                 <div className="card bg-secondary rounded-0 border-0">
-                  <div className="card-header fw-bold h4">Fazer Login</div>
+                  <div className="card-header fw-bold h4 text-white">Fazer Login</div>
                   <div className="card-body bg-white">
                     <div className="form-group mt-3 mb-4">
                       <input
@@ -49,7 +49,7 @@ const Login = () => {
             <div className="col">
               <form className="mb-3 p-0 p-md-5">
                 <div className="card bg-secondary rounded-0 border-0">
-                  <div className="card-header fw-bold h4">Cadastre-se</div>
+                  <div className="card-header fw-bold h4 text-white">Cadastre-se</div>
                   <div className="card-body bg-white">
                     <div className="form-group mb-4">
                       <input

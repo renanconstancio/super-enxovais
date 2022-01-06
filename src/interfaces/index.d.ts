@@ -14,6 +14,7 @@ export interface TCategoriaProps {
   id: string;
   categoria: string;
   idCategoriaPai?: string;
+  children?: TCategoriaProps[];
 }
 
 export interface IProdutos<T> {
@@ -72,6 +73,10 @@ export interface IProdutoProps {
   variacoes?: IVariacao[];
   imagem?: IImagem[];
   codigoPai?: string;
+  categoria?: {
+    id: string;
+    descricao: string;
+  };
 }
 
 export interface ICarrinho {

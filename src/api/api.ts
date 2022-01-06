@@ -6,7 +6,7 @@ console.log('process.env.REACT_APP_PROXY_URL', process.env.REACT_APP_PROXY_URL);
 // console.log('process.env.HOST', process.env.HOST);
 
 axios.defaults.baseURL =
-  (process.env.REACT_APP_PROXY_URL || 'https://cors.dcisuporte.com.br/') +
+  (process.env.REACT_APP_PROXY_URL || 'http://cors.dcisuporte.com.br:3001/') +
   'https://bling.com.br/Api/v2';
 // axios.defaults.baseURL = 'https://cors.dcisuporte.com.br/' + 'https://bling.com.br/Api/v2';
 axios.defaults.timeout = 5000;
