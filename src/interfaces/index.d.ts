@@ -18,6 +18,7 @@ export interface TCategoriaProps {
 }
 
 export interface IProdutos<T> {
+  erros?: any | undefined;
   produtos: T[];
 }
 

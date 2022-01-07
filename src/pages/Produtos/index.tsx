@@ -36,37 +36,70 @@ const Produtos = () => {
   }, {} as ICartItemsAmount);
 
   useEffect(() => {
-    async function loadProducts() {
-      try {
-        const {
-          data: {
-            retorno: { produtos }
-          }
-        } = await api.get<IBling<IProdutos<IProduto<IProdFormatted>>>>(
+    const loadProducts = async () => {
+      const produtos = await api
+        .get<IBling<IProdutos<IProduto<IProdFormatted>>>>(
           `/produtos/json?apikey=${process.env.REACT_APP_API_KEY}&filters=tipo[P]&situacao=Ativo&imagem=S&estoque=S`
-        );
+        )
+        .then((resp) => {
+          if (resp.data.retorno.erros == undefined) {
+            return resp.data.retorno.produtos;
+          } else {
+            throw resp.data.retorno.erros[0].erro.msg;
+          }
+        })
+        .catch((erro) => {
+          console.error('Erro no método getProdutoPorCodigo(codigo) da classe BlingAPI: ');
+          console.error(erro);
+          throw erro.toString();
+        });
 
-        produtos.filter(({ produto: p }: IProduto<IProdFormatted>) =>
-          console.log(slugiFy(`${p.categoria?.descricao}`), categoria)
-        );
+      const formattedProducts = produtos
+        .filter(
+          ({ produto: p }: IProduto<IProdFormatted>) =>
+            !p.codigoPai &&
+            (p.imageThumbnail || p.imagem?.length) &&
+            slugiFy(`${p.categoria?.descricao}`) === `${categoria}`
+        )
+        .map(({ produto: p }: IProduto<IProdFormatted>) => ({
+          ...p,
+          precoFormatted: formatPrice(p.preco)
+        }));
 
-        const formattedProducts = produtos
-          .filter(
-            ({ produto: p }: IProduto<IProdFormatted>) =>
-              slugiFy(`${p.categoria?.descricao}`) === `${categoria}`
-          )
-          .map(({ produto: p }: IProduto<IProdFormatted>) => ({
-            ...p,
-            precoFormatted: formatPrice(p.preco)
-          }));
+      setProducts(formattedProducts);
+    };
 
-        setProducts(formattedProducts);
-        setLoad(false);
-      } catch (error) {
-        console.log(error);
-        return <>asdfasd</>;
-      }
-    }
+    // async function loadProducts() {
+    //   try {
+    //     const {
+    //       data: {
+    //         retorno: { produtos }
+    //       }
+    //     } = await api.get<IBling<IProdutos<IProduto<IProdFormatted>>>>(
+    //       `/produtos/json?apikey=${process.env.REACT_APP_API_KEY}&filters=tipo[P]&situacao=Ativo&imagem=S&estoque=S`
+    //     );
+
+    //     produtos.filter(({ produto: p }: IProduto<IProdFormatted>) =>
+    //       console.log(slugiFy(`${p.categoria?.descricao}`), categoria)
+    //     );
+
+    //     const formattedProducts = produtos
+    //       .filter(
+    //         ({ produto: p }: IProduto<IProdFormatted>) =>
+    //           slugiFy(`${p.categoria?.descricao}`) === `${categoria}`
+    //       )
+    //       .map(({ produto: p }: IProduto<IProdFormatted>) => ({
+    //         ...p,
+    //         precoFormatted: formatPrice(p.preco)
+    //       }));
+
+    //     setProducts(formattedProducts);
+    //     setLoad(false);
+    //   } catch (error) {
+    //     console.log(error);
+    //     return <>asdfasd</>;
+    //   }
+    // }
 
     loadProducts();
   }, [categoria]);

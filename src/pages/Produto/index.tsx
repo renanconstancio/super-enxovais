@@ -8,7 +8,15 @@ import { formatPrice } from '../../utils/formart';
 import ProdutoError from './error';
 
 import isMobile from '../../utils/isMobile';
-import { IBling, IProduto, IProdutoProps, IProdutos, IVariacaoTree } from '../../interfaces';
+import {
+  IBling,
+  IProduto,
+  IProdutoProps,
+  IProdutos,
+  IVariacao,
+  IVariacaoProps,
+  IVariacaoTree
+} from '../../interfaces';
 import { useCarrinho } from '../../hooks/useCarrinho';
 import { Helmet } from 'react-helmet';
 
@@ -28,8 +36,8 @@ type TImgFormatted = {
 
 interface IProdFormatted extends IProdutoProps {
   precoFormatted: string;
-  variacoesFormatted: IVariacaoTree[];
   imagemFormatted: TImgFormatted[];
+  variacoesFormatted?: any[];
 }
 
 const Produto = () => {
@@ -61,73 +69,37 @@ const Produto = () => {
           `/produto/${codigo}/json?apikey=${process.env.REACT_APP_API_KEY}&imagem=S&estoque=S`
         );
 
-        let temp = {};
+        let temp: {};
+        let temp1: {};
         let keys: string[];
 
         const formattedProduct = produtos.reduce((products, p) => {
           return (products = {
             ...p.produto,
             precoFormatted: formatPrice(p.produto.preco),
-            variacoesFormatted: Object.values(
-              p.produto.variacoes?.reduce((obj: any, { variacao: rws }) => {
-                keys = rws.nome.split(/[\\:\\;]+/);
 
-                // if (keys[2] && keys[3])
-                //   [keys[2], keys[3]].reduce((o, nome) => {
-                //     temp = (o.children = o.children || []).find(
-                //       (q: IVariacaoTree) => q.nome === nome
-                //     );
+            variacoesFormatted: p.produto.variacoes?.reduce((obj: any, { variacao: rws }) => {
+              keys = rws.nome.split(/[\\:\\;]+/);
 
-                //     if (!temp)
-                //       o.children.push(
-                //         (temp = {
-                //           nome: nome,
-                //           codigo: rws.codigo,
-                //           estoque: rws.estoqueAtual
-                //         })
-                //       );
+              // if (!obj[keys[0]]) obj[keys[0]] = [];
 
-                //     return temp;
-                //   }, obj);
+              // if (!obj[keys[0]].find((q: any) => q.nome === keys[1]))
+              //   obj[keys[0]].push({
+              //     nome: keys[1],
+              //     codigo: rws.codigo,
+              //     estoque: rws.estoqueAtual
+              //   });
 
-                if (keys[0] && keys[1])
-                  [keys[2], keys[3], keys[0], keys[1]].reduce((o, nome) => {
-                    temp = (o.children = o.children || []).find(
-                      (q: IVariacaoTree) => q.nome === nome
-                    );
+              // if (!obj[keys[0]][keys[2]].find((q: any) => q.nome === keys[3]))
+              //   obj[keys[0]][keys[2]].push({
+              //     nome: keys[3],
+              //     codigo: rws.codigo,
+              //     estoque: rws.estoqueAtual
+              //   });
 
-                    if (!temp)
-                      o.children.push(
-                        (temp = {
-                          nome: nome,
-                          codigo: rws.codigo,
-                          estoque: rws.estoqueAtual
-                        })
-                      );
-                    return temp;
-                  }, obj);
+              return obj;
+            }, {}),
 
-                //
-                // keys.reduce((o, nome) => {
-                //   temp = (o.children = o.children || []).find(
-                //     (q: IVariacaoTree) => q.nome === nome
-                //   );
-
-                //   if (!temp)
-                //     o.children.push(
-                //       (temp = {
-                //         nome: nome,
-                //         codigo: rws.codigo,
-                //         estoque: rws.estoqueAtual
-                //       })
-                //     );
-
-                //   return temp;
-                // }, obj);
-
-                return obj;
-              }, {} as IVariacaoTree).children
-            ),
             imagemFormatted:
               p.produto?.imagem?.map((pi) => {
                 return {
@@ -242,13 +214,13 @@ const Produto = () => {
 
                 {/* {!!variations && <GradeVariations data={variations} key={0} />} */}
 
-                {/* <div
+                <div
                   style={{
                     whiteSpace: 'pre-wrap',
                     wordBreak: 'keep-all'
                   }}>
                   {JSON.stringify(variations, null, '  ')}
-                </div> */}
+                </div>
 
                 <section className="mt-3">
                   <button
@@ -343,37 +315,37 @@ const Produto = () => {
   );
 };
 
-// let i = 1;
-// const GradeVariations = ({ data }: { data: IVariacaoTree[] | undefined }) => {
-//   return (
-//     <>
-//       <div className="grade" key={`grade_${i++}`}>
-//         {!!data &&
-//           data.map((rws) => (
-//             <>
-//               <strong className="d-block">{rws.nome}</strong>
-//               {!!rws.children &&
-//                 rws.children.map((loop, i) => (
-//                   <span key={`span_${i}`} className={`${loop.estoque === 0 && 'out-of-stock'}`}>
-//                     {loop.nome}
-//                   </span>
-//                 ))}
-//             </>
-//           ))}
-//       </div>
+let i = 1;
+const GradeVariations = ({ data }: { data: IVariacaoTree[] | undefined }) => {
+  return (
+    <>
+      <div className="grade" key={`grade_${i++}`}>
+        {!!data &&
+          data.map((rws) => (
+            <>
+              <strong className="d-block">{rws.nome}</strong>
+              {!!rws.children &&
+                rws.children.map((loop, i) => (
+                  <span key={`span_${i}`} className={`${loop.estoque === 0 && 'out-of-stock'}`}>
+                    {loop.nome}
+                  </span>
+                ))}
+            </>
+          ))}
+      </div>
 
-//       {!!data &&
-//         data.map((rws1) => (
-//           <>
-//             {!!rws1.children &&
-//               rws1.children.map((loop1, ii) => (
-//                 <>{!!loop1.children && <GradeVariations data={loop1.children} key={ii} />}</>
-//               ))}
-//           </>
-//         ))}
-//     </>
-//   );
-// };
+      {!!data &&
+        data.map((rws1) => (
+          <>
+            {!!rws1.children &&
+              rws1.children.map((loop1, ii) => (
+                <>{!!loop1.children && <GradeVariations data={loop1.children} key={ii} />}</>
+              ))}
+          </>
+        ))}
+    </>
+  );
+};
 
 // <Grade nome={rws.nome} key={0}>
 //   {!!rws.children &&

@@ -69,10 +69,10 @@ const Topo = () => {
                 <img src="/logo.png" alt="Logo Desktop" className="img-fluid" />
               </Link>
             </section>
-            <section className="col-6">
+            <section className="col px-md-5 px-0">
               <Search />
             </section>
-            <section className="col-2">
+            <section className="col-md-auto">
               <div className="d-flex align-items-center">
                 <div className="flex-shrink-0">
                   <i className="far fa-user-circle text-primary fa-2x"></i>
@@ -90,7 +90,7 @@ const Topo = () => {
                 </div>
               </div>
             </section>
-            <section className="col-2">
+            <section className="col-md-auto">
               <IconCar />
             </section>
           </div>

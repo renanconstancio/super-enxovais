@@ -20,6 +20,16 @@ $theme-colors: (
   'gray': #f1f1f1
 );
 
+$grid-breakpoints: (
+  xs: 0,
+  md: 768px
+);
+$container-max-widths: (
+  xs: 0,
+  md: 769px,
+  lg: 1320px
+);
+
 $input-bg: #fff;
 $body-bg: $secondary;
 $font-family-sans-serif: 'Dosis', sans-serif;
