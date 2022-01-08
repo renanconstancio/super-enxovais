@@ -69,8 +69,7 @@ const Produto = () => {
           `/produto/${codigo}/json?apikey=${process.env.REACT_APP_API_KEY}&imagem=S&estoque=S`
         );
 
-        let temp: {};
-        let temp1: {};
+        let temp: any = [];
         let keys: string[];
 
         const formattedProduct = produtos.reduce((products, p) => {
@@ -78,24 +77,46 @@ const Produto = () => {
             ...p.produto,
             precoFormatted: formatPrice(p.produto.preco),
 
-            variacoesFormatted: p.produto.variacoes?.reduce((obj: any, { variacao: rws }) => {
+            variacoesFormatted: p.produto.variacoes?.reduce((obj, { variacao: rws }) => {
               keys = rws.nome.split(/[\\:\\;]+/);
 
-              // if (!obj[keys[0]]) obj[keys[0]] = [];
+              if (!obj[keys[0]]) obj[keys[0]] = [];
 
-              // if (!obj[keys[0]].find((q: any) => q.nome === keys[1]))
-              //   obj[keys[0]].push({
-              //     nome: keys[1],
-              //     codigo: rws.codigo,
-              //     estoque: rws.estoqueAtual
-              //   });
+              if (keys[0]) {
+                if (!obj[keys[0]].find((q: any) => q.nome === keys[1]))
+                  obj[keys[0]] = [
+                    ...obj[keys[0]],
+                    {
+                      nome: keys[1],
+                      // codigo: rws.codigo,
+                      // estoque: rws.estoqueAtual,
+                      [keys[2]]: []
+                    }
+                  ];
+              }
 
-              // if (!obj[keys[0]][keys[2]].find((q: any) => q.nome === keys[3]))
-              //   obj[keys[0]][keys[2]].push({
-              //     nome: keys[3],
-              //     codigo: rws.codigo,
-              //     estoque: rws.estoqueAtual
-              //   });
+              // if (!obj[keys[0]][keys[2]]) obj[keys[0]][keys[2]] = [];
+
+              // if (keys[2]) {
+              //   obj[keys[0]] = [
+              //     ...obj[keys[0]],
+              //     [keys[2]]: [{
+              //       nome: keys[3]
+              //       // codigo: rws.codigo,
+              //       // estoque: rws.estoqueAtual,
+              //     }]
+              //   ];
+
+              //   //   ...obj[keys[0]],
+              //   //   {
+              //   //     [keys[2]]: {
+              //   //       nome: keys[3],
+              //   //       codigo: rws.codigo,
+              //   //       estoque: rws.estoqueAtual
+              //   //     }
+              //   //   }
+              //   // ];
+              // }
 
               return obj;
             }, {}),
@@ -119,6 +140,7 @@ const Produto = () => {
           productExists: true
         });
       } catch (error) {
+        console.log('error', error);
         setLoading({
           loading: true,
           productExists: false
