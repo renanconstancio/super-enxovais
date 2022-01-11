@@ -1,1 +1,11 @@
 https://dev.to/knowankit/setup-eslint-and-prettier-in-react-app-357b
+
+Suspense para Busca de Dados (Experimental)
+https://codesandbox.io/s/frosty-hermann-bztrp?file=/src/fakeApi.js
+
+
+How to Fetch Data with React Suspense
+https://rahmanfadhil.com/fetch-data-with-react-suspense/
+
+Imagens de carregamento preguiçosos em reagir
+https://dev.to/shubhamreacts/progressively-loading-images-in-react-40lg
