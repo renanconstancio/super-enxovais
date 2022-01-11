@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import { IImagem } from '../../interfaces';
 import { slugiFy } from '../../utils/slugiFy';
+import ImageRenderer from '../ImageRenderer';
 
 type CardTypes = {
   id: number;
@@ -35,11 +36,11 @@ const Card = ({
     <Link className="col" to={`/${slugiFy(descricao)}-${codigo}.html`}>
       <div className="card shadow-md mb-3 rounded-0">
         {formattedImage?.length && (
-          <img
-            src={`${formattedImage[0].link}`}
-            className="card-img-top"
-            alt={formattedImage[0].link}
-            style={{ maxHeight: '375px', height: '100%' }}
+          <ImageRenderer
+            width={375}
+            height={375}
+            url={`${formattedImage[0].link}`}
+            thumb="/loading.jpg"
           />
         )}
 

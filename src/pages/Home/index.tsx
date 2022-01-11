@@ -1,82 +1,56 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 
-import api from '../../api/api';
-import { useCarrinho } from '../../hooks/useCarrinho';
-import { IBling, IProduto, IProdutoProps, IProdutos } from '../../interfaces';
-import { formatPrice } from '../../utils/formart';
-
-import Card from '../../components/Card';
 import Rodape from '../../components/Rodape';
 import Topo from '../../components/Topo';
-import Menu from '../../components/Menu';
-import Banners from '../../components/Banners';
 
-interface IProdFormatted extends IProdutoProps {
-  precoFormatted: string;
-}
+import createResource from '../../api/createResource';
+import ImageRenderer from '../../components/ImageRenderer';
 
-interface ICartItemsAmount {
-  [key: number]: number;
-}
+const Menu = lazy(() => import('../../components/Menu'));
+const Banners = lazy(() => import('../../components/Banners'));
+const ProdutosLista = lazy(() => import('../../components/ProdutosLista'));
+
+const resource = createResource();
 
 const Home = () => {
-  const { carrinho, addItem } = useCarrinho();
-
-  const [products, setProducts] = useState<IProdFormatted[]>();
-
-  const carrinhoItemsQtde = carrinho.reduce((sumAmount, product) => {
-    return (sumAmount = {
-      ...sumAmount,
-      [product.id]: product.qtde
-    });
-  }, {} as ICartItemsAmount);
-
-  useEffect(() => {
-    const loadProducts = async () => {
-      const produtos = await api
-        .get<IBling<IProdutos<IProduto<IProdFormatted>>>>(
-          `/produtos/json&apikey=${process.env.REACT_APP_API_KEY}&filters=tipo[P]&situacao=Ativo&imagem=S&estoque=S`
-        )
-        .then((resp) => {
-          if (resp.data.retorno.erros == undefined) {
-            return resp.data.retorno.produtos;
-          } else {
-            throw resp.data.retorno.erros[0].erro.msg;
-          }
-        })
-        .catch((erro) => {
-          console.error('Erro no método getProdutoPorCodigo(codigo) da classe BlingAPI: ');
-          console.error(erro);
-          throw erro.toString();
-        });
-
-      const formattedProducts = produtos
-        .filter(
-          ({ produto: p }: IProduto<IProdFormatted>) =>
-            !p.codigoPai && (p.imageThumbnail || p.imagem?.length)
-        )
-        .map(({ produto: p }: IProduto<IProdFormatted>) => ({
-          ...p,
-          precoFormatted: formatPrice(p.preco)
-        }));
-
-      setProducts(formattedProducts);
-    };
-
-    loadProducts();
-  }, []);
-
   return (
     <>
       <Topo />
 
       <Suspense
-        fallback={<div style={{ width: '100%', height: '45px' }} className="placeholder"></div>}>
-        <Menu />
+        fallback={
+          <nav className="bg-secondary d-none d-md-block">
+            <div className="container">
+              <div className="row">
+                <ul className="menu placeholder-glow d-flex flex-row justify-content-between align-self-center">
+                  {[1, 2, 3, 4, 5].map((x) => (
+                    <li className="pt-2 pb-2 pe-4 ps-4 menu-item placeholder" key={x}>
+                      <span>menu</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </nav>
+        }>
+        <Menu resource={resource} />
       </Suspense>
 
-      <Banners />
+      <Suspense
+        fallback={
+          <div className="bg-white">
+            <div className="container-md pt-4">
+              <div className="row placeholder-glow bg-dark">
+                <span style={{ width: '100%', height: '305px' }} className="placeholder d-block">
+                  a
+                </span>
+              </div>
+            </div>
+          </div>
+        }>
+        <Banners resource={resource} />
+      </Suspense>
 
       <section className="bg-white">
         <div className="container-md">
@@ -86,40 +60,31 @@ const Home = () => {
               <div className="border-bottom mb-3"></div>
             </div>
           </div>
-          <div className="row row-cols-2 row-cols-md-4 g-1 g-md-3">
-            {!products &&
-              [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <div className="row row-cols-2 row-cols-md-4 g-1 g-md-3 placeholder-glow">
+            <Suspense
+              fallback={[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                 <div className="col" key={i}>
-                  <div className="card mb-3" aria-hidden="true">
+                  <div className="card shadow-md mb-3 rounded-0" aria-hidden="true">
+                    <ImageRenderer
+                      width={375}
+                      height={375}
+                      url="/loading.jpg"
+                      thumb="/loading.jpg"
+                    />
                     <div className="card-body">
-                      <span className="placeholder w-100 mb-1" style={{ height: '255px' }}>
-                        Loading
-                      </span>
-                      <h5 className="card-title placeholder-glow">
+                      <h5 className="card-title">
                         <span className="placeholder w-100">Loading</span>
                       </h5>
-                      <p className="card-text placeholder-glow">
+                      <p className="card-text">
                         <span className="placeholder d-block w-50 mb-1">Loading</span>
                         <span className="placeholder w-100 p-2">Loading</span>
                       </p>
                     </div>
                   </div>
                 </div>
-              ))}
-
-            {!!products &&
-              products.map((rws, i) => (
-                <Card
-                  key={i}
-                  id={rws.id}
-                  descricao={rws.descricao}
-                  precoPor={rws.precoFormatted}
-                  codigo={rws.codigo}
-                  imagens={rws.imagem}
-                  addItemClick={() => addItem(rws.codigo)}
-                  itens={carrinhoItemsQtde}
-                />
-              ))}
+              ))}>
+              <ProdutosLista resource={resource} />
+            </Suspense>
           </div>
         </div>
       </section>

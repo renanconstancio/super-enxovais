@@ -1,6 +1,10 @@
-const Banners = () => {
+import ImageRenderer from '../ImageRenderer';
+
+const Banners = ({ resource }: any) => {
+  const banners = resource.banners.read();
+
   return (
-    <section className="bg-white pt-3 pt-md-0">
+    <section className="bg-white pt-4 pt-md-0">
       <div className="container-md pb-3">
         <div className="row">
           <div
@@ -8,12 +12,17 @@ const Banners = () => {
             className="carousel slide carousel-fade"
             data-bs-ride="carousel">
             <div className="carousel-inner">
-              <div className="carousel-item active">
-                <img src="/banners/banner-01.jpg" className="d-block w-100" alt="..." />
-              </div>
-              <div className="carousel-item">
-                <img src="/banners/banner-02.jpg" className="d-block w-100" alt="..." />
-              </div>
+              {!!banners &&
+                banners.map((rws: { banner: string; link: string }, i: any) => (
+                  <div className="carousel-item active w-100" key={i}>
+                    <ImageRenderer
+                      width={1583}
+                      height={526}
+                      url={rws.banner}
+                      thumb="/banners/loading.jpg"
+                    />
+                  </div>
+                ))}
             </div>
             <button
               className="carousel-control-prev"

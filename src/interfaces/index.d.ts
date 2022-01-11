@@ -13,7 +13,7 @@ export interface ICategoria<T> {
 
 export interface TCategoriaProps {
   id: string;
-  categoria: string;
+  descricao: string;
   idCategoriaPai?: string;
   children?: TCategoriaProps[];
 }
