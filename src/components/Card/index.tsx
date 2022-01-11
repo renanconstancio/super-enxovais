@@ -39,6 +39,7 @@ const Card = ({
             src={`${formattedImage[0].link}`}
             className="card-img-top"
             alt={formattedImage[0].link}
+            style={{ maxHeight: '375px', height: '100%' }}
           />
         )}
 

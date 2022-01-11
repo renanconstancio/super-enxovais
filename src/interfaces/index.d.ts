@@ -3,6 +3,7 @@ export interface IBling<T> {
 }
 
 export interface ICategorias<T> {
+  erros?: any | undefined;
   categorias: T[];
 }
 

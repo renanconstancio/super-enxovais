@@ -54,7 +54,7 @@ export function CarrinhoProvider({ children }: CarProviderProps) {
             }
           }
         } = await api.get<IBling<IProdutos<IProduto<IProdutoProps>>>>(
-          `/produto/${codId}/json?apikey=${process.env.REACT_APP_API_KEY}`
+          `/produto/${codId}/json&apikey=${process.env.REACT_APP_API_KEY}`
         );
 
         if (carrinho[productInCart].qtde < produto.estoqueMaximo) {
@@ -72,7 +72,7 @@ export function CarrinhoProvider({ children }: CarProviderProps) {
             }
           }
         } = await api.get<IBling<IProdutos<IProduto<IProdutoProps>>>>(
-          `/produto/${codId}/json?apikey=${process.env.REACT_APP_API_KEY}`
+          `/produto/${codId}/json&apikey=${process.env.REACT_APP_API_KEY}`
         );
 
         newCart = [

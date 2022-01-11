@@ -1,6 +1,6 @@
 import './style.scss';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import api from '../../api/api';
@@ -21,35 +21,40 @@ const Menu = () => {
 
   const [menus, setMenus] = useState<TGetTree[]>();
 
+  let key = 1;
+
   useEffect(() => {
     const loadMenus = async () => {
-      try {
-        const {
-          data: {
-            retorno: { categorias }
+      const categorias = await api
+        .get<IBling<ICategorias<ICategoria<TCategoriaProps>>>>(
+          `/categorias/json&apikey=${process.env.REACT_APP_API_KEY}`
+        )
+        .then((resp) => {
+          if (resp.data.retorno.erros == undefined) {
+            return resp.data.retorno.categorias;
+          } else {
+            throw resp.data.retorno.erros[0].erro.msg;
           }
-        } = await api.get<IBling<ICategorias<ICategoria<TCategoriaProps>>>>(
-          `/categorias/json?apikey=${process.env.REACT_APP_API_KEY}`
-        );
+        })
+        .catch((erro) => {
+          console.error('Erro no método loadMenus() da classe BlingAPI: ');
+          console.error(erro);
+          throw erro.toString();
+        });
 
-        const categoriasReduce = categorias.reduce(
-          (tree: any, node: any) => [
-            ...tree,
-            {
-              id: node.categoria.id,
-              categoria: node.categoria.descricao,
-              idCategoriaPai: node.categoria.idCategoriaPai
-            }
-          ],
-          []
-        );
-
-        const formattedCategorias = getTree(categoriasReduce, 'idCategoriaPai');
-
-        setMenus(formattedCategorias[0].children);
-      } catch (error) {
-        console.log(error);
-      }
+      const categoriasReduce = categorias.reduce(
+        (tree: any, node: any) => [
+          ...tree,
+          {
+            id: node.categoria.id,
+            categoria: node.categoria.descricao,
+            idCategoriaPai: node.categoria.idCategoriaPai
+          }
+        ],
+        []
+      );
+      const formattedCategorias = getTree(categoriasReduce, 'idCategoriaPai');
+      setMenus(formattedCategorias[0].children);
     };
 
     loadMenus();
@@ -68,8 +73,8 @@ const Menu = () => {
 
   const CategoriaMenuTree = ({ node }: any) => {
     return (
-      <Link to={`/${slugiFy(node.categoria)}`} className="pt-2 pb-2 pe-4 ps-4 menu-item">
-        {node.categoria}
+      <li className="pt-2 pb-2 pe-4 ps-4 menu-item" key={`a${key++}`}>
+        <NavLink to={`/${slugiFy(node.categoria)}`}>{node.categoria}</NavLink>
         {!!node.children && (
           <div className="sub-menu">
             {node.children.map((v1: TCategoriaProps, i1: number) => (
@@ -77,16 +82,16 @@ const Menu = () => {
             ))}
           </div>
         )}
-      </Link>
+      </li>
     );
   };
 
   const SubCategoriaMenuTree = ({ node }: any) => {
     return (
-      <div className="sub-menu-item">
+      <div className="sub-menu-item" key={`ab${key++}`}>
         {node.categoria}
         {!!node.children && (
-          <Link to="/" className="sub-menu">
+          <Link to="/" className="sub-menu" key={`abc${key++}`}>
             {node.children.map((v1: TCategoriaProps, i1: number) => (
               <SubCategoriaMenuTree node={v1} key={i1} />
             ))}
@@ -96,34 +101,21 @@ const Menu = () => {
     );
   };
 
-  {
-    /* {menus.map((v, i) => (
-                  <div className="menu-item pt-2 pb-2 pe-4 ps-4" key={`menu-item_${i}`}>
-                    {v.text}
-                    {v.data?.length && (
-                      <div
-                        className="d-flex flex-column justify-content-start p-3 align-self-center sub-menu"
-                        key={`sub-menu_${i}${v.id}`}>
-                        {v.data.map((v1, i1) => (
-                          <div className="sub-menu-item pt-1 pb-1" key={`menu-subitem_${i1}`}>
-                            {v1.text}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))} */
-  }
-
   return (
     <>
       {['carrinho'].indexOf(page) === -1 && (
         <nav className="bg-secondary d-none d-md-block">
           <div className="container">
             <div className="row">
-              <section className="d-flex flex-row justify-content-between align-self-center menu">
-                {!!menus && menus.map((rws, i) => <CategoriaMenuTree node={rws} key={i} />)}
-              </section>
+              {!menus && <div className="placeholder" style={{ height: '40px' }}></div>}
+
+              {!!menus && (
+                <ul className="menu d-flex flex-row justify-content-between align-self-center">
+                  {menus.map((rws, i) => (
+                    <CategoriaMenuTree node={rws} key={i} />
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </nav>
