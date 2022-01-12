@@ -1,6 +1,12 @@
 import './styles/_custom.scss';
 
-import React from 'react';
+import 'bootstrap/dist/js/bootstrap.bundle';
+
+// import 'bootstrap/js/dist/offcanvas';
+// import 'bootstrap/js/dist/collapse';
+// import 'bootstrap/js/dist/carousel';
+// import 'bootstrap/js/dist/modal';
+
 import ReactDOM from 'react-dom';
 
 import Router from './Router';

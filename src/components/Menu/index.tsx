@@ -60,20 +60,20 @@ const Menu = ({ resource }: any) => {
 
   return (
     <>
-      {['carrinho'].indexOf(page) === -1 && (
-        <nav className="bg-secondary d-none d-md-block">
-          <div className="container">
-            <div className="row">
-              <ul className="menu d-flex flex-row justify-content-between align-self-center">
-                {!!formattedCategorias &&
-                  formattedCategorias.map((rws: any, i: any) => (
-                    <CategoriaMenuTree node={rws} key={i} />
-                  ))}
-              </ul>
-            </div>
+      <nav className="bg-secondary d-none d-md-block">
+        <div className="container">
+          <div className="row">
+            <ul className="menu d-flex flex-row justify-content-between align-self-center">
+              {!!formattedCategorias &&
+                formattedCategorias.map((rws: any, i: any) => (
+                  <CategoriaMenuTree node={rws} key={i} />
+                ))}
+            </ul>
           </div>
-        </nav>
-      )}
+        </div>
+      </nav>
+      {/* {['carrinho'].indexOf(page) === -1 && (
+      )} */}
     </>
   );
 };

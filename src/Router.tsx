@@ -9,6 +9,8 @@ const Produtos = lazy(() => import('./pages/Produtos'));
 
 const Cart = lazy(() => import('./pages/Cart'));
 const Login = lazy(() => import('./pages/Login'));
+const LoginCadastro = lazy(() => import('./pages/LoginCadastro'));
+
 import Loading from './components/Loading';
 
 const Router = () => {
@@ -21,12 +23,14 @@ const Router = () => {
               <Route path="/" element={<Home />} />
 
               <Route path="/:categoria" element={<Produtos />} />
-              <Route path="/:categoria/:categoria" element={<Produtos />} />
+              <Route path="/:categoria/:subcategoria" element={<Produtos />} />
+              <Route path="/produtos" element={<Produtos />} />
 
               <Route path="/:string-:codigo.html" element={<Produto />} />
 
               <Route path="/carrinho" element={<Cart />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/cadastre-se" element={<LoginCadastro />} />
             </Routes>
           </Suspense>
         </CarrinhoProvider>

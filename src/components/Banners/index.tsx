@@ -1,3 +1,5 @@
+// import ImageRenderer from '../ImageRenderer';
+
 import ImageRenderer from '../ImageRenderer';
 
 const Banners = ({ resource }: any) => {
@@ -8,13 +10,13 @@ const Banners = ({ resource }: any) => {
       <div className="container-md pb-3">
         <div className="row">
           <div
-            id="carouselExampleInterval"
+            id="carouselBannersInterval"
             className="carousel slide carousel-fade"
             data-bs-ride="carousel">
             <div className="carousel-inner">
               {!!banners &&
                 banners.map((rws: { banner: string; link: string }, i: any) => (
-                  <div className="carousel-item active w-100" key={i}>
+                  <div className={`carousel-item ${i === 0 && 'active'}`} key={i}>
                     <ImageRenderer
                       width={1583}
                       height={526}
@@ -27,17 +29,17 @@ const Banners = ({ resource }: any) => {
             <button
               className="carousel-control-prev"
               type="button"
-              data-bs-target="#carouselExampleInterval"
+              data-bs-target="#carouselBannersInterval"
               data-bs-slide="prev">
-              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <i className="fas fa-chevron-left fa-3x text-white" aria-hidden="true"></i>
               <span className="visually-hidden">Previous</span>
             </button>
             <button
               className="carousel-control-next"
               type="button"
-              data-bs-target="#carouselExampleInterval"
+              data-bs-target="#carouselBannersInterval"
               data-bs-slide="next">
-              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <i className="fas fa-chevron-right fa-3x text-white" aria-hidden="true"></i>
               <span className="visually-hidden">Next</span>
             </button>
           </div>

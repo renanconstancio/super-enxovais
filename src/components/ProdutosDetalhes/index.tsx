@@ -203,7 +203,7 @@ const ProdutosDetalhes = ({ resource }: any) => {
             />
           </div>
 
-          <div className="col-md-5 p-3 shadow-md">
+          <div className="col-md-4 p-3 shadow-md">
             <span className="text-danger h3">{formattedProduct?.precoFormatted}</span>
             <div className="mt-3 mx-0"></div>
 

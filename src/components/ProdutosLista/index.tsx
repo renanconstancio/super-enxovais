@@ -14,8 +14,6 @@ interface ICartItemsAmount {
 const ProdutosLista = ({ resource }: any) => {
   const { carrinho, addItem } = useCarrinho();
 
-  const produtos = resource.produtos.read();
-
   const carrinhoItemsQtde = carrinho.reduce((sumAmount, product) => {
     return (sumAmount = {
       ...sumAmount,
@@ -23,20 +21,25 @@ const ProdutosLista = ({ resource }: any) => {
     });
   }, {} as ICartItemsAmount);
 
-  const formattedProducts = produtos
-    .filter(
-      ({ produto: p }: IProduto<IProdFormatted>) =>
-        !p.codigoPai && (p.imageThumbnail || p.imagem?.length)
-    )
-    .map(({ produto: p }: IProduto<IProdFormatted>) => ({
-      ...p,
-      precoFormatted: formatPrice(p.preco)
-    }));
+  const produtos = resource.produtos.read();
+
+  console.log(produtos);
+
+  // const formattedProducts = produtos;
+  // const formattedProducts = produtos
+  //   .filter(
+  //     ({ produto: p }: IProduto<IProdFormatted>) =>
+  //       !p.codigoPai && (p.imageThumbnail || p.imagem?.length)
+  //   )
+  //   .map(({ produto: p }: IProduto<IProdFormatted>) => ({
+  //     ...p,
+  //     precoFormatted: formatPrice(p.preco)
+  //   }));
 
   return (
     <>
-      {!!formattedProducts &&
-        formattedProducts.map((rws: IProdFormatted, i: number) => (
+      {!!produtos &&
+        produtos.map((rws: IProdFormatted, i: number) => (
           <Card
             key={i}
             id={rws.id}

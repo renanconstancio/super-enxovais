@@ -49,7 +49,7 @@ const Carrinho = () => {
   }, 0);
 
   return (
-    <section className="bg-white pt-3 pt-md-0">
+    <section className="bg-white pt-3 pt-md-5 border-top">
       {totalQtde === 0 && (
         <div className="container-md">
           <div className="row w-100 align-items-center">

@@ -48,10 +48,10 @@ const CarrinhoCanvas = () => {
           Detalhes da Compra
         </h5>
         <button
-          id="close-offcanvas"
           type="button"
           className="btn-close text-white"
           data-bs-dismiss="offcanvas"
+          data-bs-target="#carrinhoRight"
           aria-label="Close"></button>
       </div>
       <div className="offcanvas-body">

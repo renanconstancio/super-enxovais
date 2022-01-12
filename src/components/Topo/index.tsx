@@ -1,25 +1,40 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { boasVindas } from '../../utils/boasVindas';
 import CarrinhoCanvas from '../CarrinhoCanvas';
 import IconCar from '../IconCar';
-import MenuCanvas from '../MenuCanvas';
+import MenuMobile from '../MenuMobile';
 import Search from '../Search';
+import createResource from '../../api/createResource';
+import { lazy, Suspense } from 'react';
+
+const MenuCanvas = lazy(() => import('../MenuCanvas'));
+
+const resource = createResource();
 
 const Topo = () => {
+  const { pathname } = useLocation();
+
+  const page = pathname.split('/')[1];
+
   return (
     <header>
-      <MenuCanvas />
+      <MenuMobile />
+
+      <Suspense fallback={<span className="d-none">...</span>}>
+        <MenuCanvas resource={resource} />
+      </Suspense>
+
       <CarrinhoCanvas />
-      <section className="container-md d-block d-md-none bg-secondary py-2 fixed-top">
-        <div className="row justify-content-between align-items-center">
+      <section className="container-md d-block d-md-none bg-light py-2 fixed-top">
+        <div className="row align-items-center justify-content-between">
           <section className="col-2">
             <div className="dropdown">
               <span
                 className="btn btn-dark"
-                id="clickMenuCanvas"
+                id="clickMenuMobile"
                 data-bs-toggle="offcanvas"
-                data-bs-target="#menuCanvas"
-                aria-controls="menuCanvas">
+                data-bs-target="#menuMobile"
+                aria-controls="menuMobile">
                 <i className="fas fa-bars"></i>
               </span>
             </div>
@@ -29,20 +44,30 @@ const Topo = () => {
               <img src="/logo-mobile.png" alt="Logo Mobile" className="img-fluid" />
             </Link>
           </section>
-          <section className="col-4 align-middle">
+          <section className="col-4 d-flex justify-content-evenly">
             <span className="btn btn-sm">
-              <i className="fas fa-search text-primary" style={{ fontSize: '20px' }}></i>
+              <i
+                className="fas fa-search text-primary"
+                style={{ fontSize: '25px' }}
+                data-bs-toggle="collapse"
+                data-bs-target="#searchCollapse"
+                aria-expanded="false"
+                aria-controls="searchCollapse"></i>
             </span>
+
+            <div className="fixed-top p-3 bg-light collapse" id="searchCollapse">
+              <Search />
+            </div>
+
             <span
               className="btn btn-sm"
-              id="clickCarrinhoRight"
               data-bs-toggle="offcanvas"
               data-bs-target="#carrinhoRight"
               aria-controls="carrinhoRight">
               <i
                 className="fas fa-shopping-cart text-primary"
                 style={{
-                  fontSize: '20px'
+                  fontSize: '25px'
                 }}></i>
             </span>
           </section>
@@ -61,7 +86,7 @@ const Topo = () => {
         </div>
       </section>
 
-      <section className="d-none d-md-block bg-white py-2">
+      <section className="d-none d-md-block bg-white py-2 sticky-top">
         <div className="container-md">
           <div className="row align-items-center justify-content-between">
             <section className="col-2">
@@ -69,9 +94,11 @@ const Topo = () => {
                 <img src="/logo.png" alt="Logo Desktop" className="img-fluid" />
               </Link>
             </section>
-            <section className="col px-md-5 px-0">
-              <Search />
-            </section>
+            {['carrinho', 'cadastre-se', 'login'].indexOf(page) === -1 && (
+              <section className="col px-md-5 px-0">
+                <Search />
+              </section>
+            )}
             <section className="col-md-auto">
               <div className="d-flex align-items-center">
                 <div className="flex-shrink-0">
@@ -84,15 +111,17 @@ const Topo = () => {
                   </Link>{' '}
                   ou <br />
                   crie seu{' '}
-                  <Link className="btn-link fw-bold" to="/login">
+                  <Link className="btn-link fw-bold" to="/cadastre-se">
                     Cadastro
                   </Link>
                 </div>
               </div>
             </section>
-            <section className="col-md-auto">
-              <IconCar />
-            </section>
+            {['carrinho'].indexOf(page) === -1 && (
+              <section className="col-md-auto text-center">
+                <IconCar />
+              </section>
+            )}
           </div>
         </div>
       </section>

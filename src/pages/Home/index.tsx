@@ -42,8 +42,8 @@ const Home = () => {
           <div className="bg-white">
             <div className="container-md pt-4">
               <div className="row placeholder-glow bg-dark">
-                <span style={{ width: '100%', height: '305px' }} className="placeholder d-block">
-                  a
+                <span style={{ width: '100%', height: '205px' }} className="placeholder d-block">
+                  Banners
                 </span>
               </div>
             </div>
@@ -56,7 +56,7 @@ const Home = () => {
         <div className="container-md">
           <div className="row">
             <div className="col-12">
-              <h1 className="fw-bold text-uppercase">Produtos em Destaque</h1>
+              <h1 className="fw-bold text-uppercase h3">Produtos em Destaque</h1>
               <div className="border-bottom mb-3"></div>
             </div>
           </div>

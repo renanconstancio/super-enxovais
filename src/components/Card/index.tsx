@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import { IImagem } from '../../interfaces';
 import { slugiFy } from '../../utils/slugiFy';
@@ -12,7 +11,7 @@ type CardTypes = {
   codigo?: string;
   imagens?: IImagem[];
   itens?: any;
-  addItemClick(args0?: string | number): void;
+  addItemClick(args0?: string | number | undefined): void;
 };
 
 const Card = ({
@@ -60,7 +59,7 @@ const Card = ({
               cursor: 'pointer'
             }}>
             <span className="bg-primary p-2 rounded-start">
-              <i className="fas fa-cart-plus"></i> {itens[id] ? itens[id] : 0}
+              <i className="fas fa-cart-plus d-none d-md-inline"></i> {itens[id] ? itens[id] : 0}
             </span>
 
             <span className="p-2">

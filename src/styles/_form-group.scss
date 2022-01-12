@@ -1,0 +1,68 @@
+.form-group {
+  position: relative;
+
+  .form-control {
+    &::placeholder {
+      color: transparent;
+    }
+
+    + .form-control-placeholder {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+      padding-left: 0.8rem;
+      font-size: 120%;
+      line-height: 200%;
+      opacity: 0.5;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+
+    &:focus,
+    &:not(:placeholder-shown) {
+      + .form-control-placeholder {
+        top: -14px;
+        bottom: auto;
+        left: 0.4rem;
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+        font-size: 85%;
+        opacity: 1;
+        -webkit-transition: all 0.2s;
+        transition: all 0.2s;
+
+        &::after {
+          content: ' ';
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background-color: #fff;
+          z-index: -1;
+        }
+      }
+    }
+  }
+
+  &.input-group-lg {
+    .form-control {
+      + .form-control-placeholder {
+        font-size: 120%;
+        line-height: 250%;
+      }
+
+      &:focus,
+      &:not(:placeholder-shown) {
+        + .form-control-placeholder {
+          font-size: 95%;
+          top: -20px;
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,70 @@
-// import { useNavigate } from 'react-router-dom';
-
 import { NavLink } from 'react-router-dom';
-import { boasVindas } from '../../utils/boasVindas';
+import { ICategoria, TCategoriaProps } from '../../interfaces';
+import { getTree } from '../../utils/getTree';
+import { slugiFy } from '../../utils/slugiFy';
 
-const MenuCanvas = () => {
-  // const navigate = useNavigate();
+const MenuCanvas = ({ resource }: any) => {
+  let key = 1;
+
+  const categorias = resource.menus.read();
+
+  const categoriasReduce = categorias.reduce(
+    (tree: any, node: ICategoria<TCategoriaProps>) => [
+      ...tree,
+      {
+        id: node.categoria.id,
+        descricao: node.categoria.descricao,
+        idCategoriaPai: node.categoria.idCategoriaPai
+      }
+    ],
+    []
+  );
+
+  const formattedCategorias = getTree(categoriasReduce, 'idCategoriaPai')[0].children;
+
+  const CategoriaMenuTree = ({ node }: any) => {
+    return (
+      <li className="nav-item dropdown" key={`${key++}`}>
+        <NavLink to={`/${slugiFy(node.descricao)}`} className="nav-link float-start">
+          {node.descricao}
+        </NavLink>
+
+        {!!node.children && (
+          <>
+            <i
+              className="dropdown-toggle float-end fas fa-plus"
+              data-bs-toggle="dropdown"
+              style={{
+                position: 'absolute',
+                right: 0,
+                top: 0,
+                bottom: 0,
+                paddingRight: '0.3rem',
+                paddingLeft: '0.3rem',
+                lineHeight: '250%',
+                fontSize: '100%',
+                cursor: 'pointer'
+              }}></i>
+            <ul className="dropdown-menu w-100" key={`ab${key++}`}>
+              {node.children.map((v1: TCategoriaProps, i1: number) => (
+                <SubCategoriaMenuTree node={v1} key={i1} parent={node.descricao} />
+              ))}
+            </ul>
+          </>
+        )}
+      </li>
+    );
+  };
+
+  const SubCategoriaMenuTree = ({ node, parent }: { node: any; parent: string }) => {
+    return (
+      <li>
+        <NavLink className="dropdown-item" to={`/${slugiFy(parent)}/${slugiFy(node.descricao)}`}>
+          {node.descricao}
+        </NavLink>
+      </li>
+    );
+  };
 
   return (
     <section
@@ -15,69 +75,72 @@ const MenuCanvas = () => {
       tabIndex={-1}>
       <div className="offcanvas-header bg-secondary text-white">
         <h5 id="menuCanvasLabel" className="mb-0">
-          {boasVindas()} Visitante
+          Menus
         </h5>
         <button
-          id="close-offcanvas"
           type="button"
           className="btn-close text-white"
-          data-bs-dismiss="offcanvas"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#menuCanvas"
+          aria-controls="menuCanvas"
           aria-label="Close"></button>
       </div>
       <div className="offcanvas-body">
-        <div className="list-group list-group-flush">
-          <span className="list-group-item">
-            <i className="fas fa-list"></i> Menus/Categorias
-          </span>
+        <ul className="nav flex-column">
+          {!!formattedCategorias &&
+            formattedCategorias.map((rws: any, i: number) => (
+              <CategoriaMenuTree node={rws} key={i} />
+            ))}
 
-          <NavLink to="/" className="list-group-item">
-            <i className="fas fa-home"></i> Inicio
-          </NavLink>
-          <NavLink to="/login" className="list-group-item">
-            <i className="fas fa-sign-in-alt"></i> Login
-          </NavLink>
-          <NavLink to="/rastreio" className="list-group-item">
-            <i className="fas fa-gifts"></i> Rastreie seu Pedido
-          </NavLink>
-        </div>
-        {/* 
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item active" aria-current="true">
-            An active item
-          </li>
-          <li className="list-group-item">A second item</li>
-          <li className="list-group-item">A third item</li>
-          <li className="list-group-item">A fourth item</li>
-          <li className="list-group-item">And a fifth one</li>
-        </ul> */}
-
-        {/* <a className="dropdown-item" href="#">
-          Login
-        </a>
-        <span
-          className="btn btn-secondary"
-          id="dropdownMenu2"
-          data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <i className="fas fa-bars"></i>
-        </span>
-        <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
-          <li>
-            <a className="dropdown-item" href="#">
-              Action
+          {/* <li className="nav-item">
+            <a className="nav-link active" aria-current="page" href="#">
+              Active
             </a>
           </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Another action
+          <li className="nav-item dropdown">
+            <a
+              className="nav-link dropdown-toggle"
+              data-bs-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-expanded="false">
+              Dropdown
+            </a>
+            <ul className="dropdown-menu">
+              <li>
+                <a className="dropdown-item" href="#">
+                  Action
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Another action
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Something else here
+                </a>
+              </li>
+              <li>
+                <hr className="dropdown-divider" />
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Separated link
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#">
+              NavLink
             </a>
           </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Something else here
-            </a>
-          </li>
-        </ul> */}
+          <li className="nav-item">
+            <a className="nav-link disabled">Disabled</a>
+          </li> */}
+        </ul>
       </div>
     </section>
   );

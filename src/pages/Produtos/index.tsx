@@ -1,108 +1,25 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense } from 'react';
 
-import api from '../../api/api';
-import { useCarrinho } from '../../hooks/useCarrinho';
-import { IBling, IProduto, IProdutoProps, IProdutos } from '../../interfaces';
-import { formatPrice } from '../../utils/formart';
-import Card from '../../components/Card';
 import Topo from '../../components/Topo';
 import Rodape from '../../components/Rodape';
+import ImageRenderer from '../../components/ImageRenderer';
+
+import createResource from '../../api/createResource';
+import { wrapPromise } from '../../api/wrapPromise';
+import { apiProdutosSearch } from '../../api/apiProdutosSearch';
 import { useParams } from 'react-router-dom';
-import { slugiFy } from '../../utils/slugiFy';
-
-interface IProdFormatted extends IProdutoProps {
-  precoFormatted: string;
-}
-
-interface ICartItemsAmount {
-  [key: number]: number;
-}
 
 const Menu = lazy(() => import('../../components/Menu'));
+const ProdutosLista = lazy(() => import('../../components/ProdutosLista'));
+
+const resource = createResource();
 
 const Produtos = () => {
   const { categoria } = useParams();
 
-  const { carrinho, addItem } = useCarrinho();
+  const resourceProdutos = { produtos: wrapPromise(apiProdutosSearch({ data: { categoria } })) };
 
-  const [load, setLoad] = useState(true);
-  const [products, setProducts] = useState<IProdFormatted[]>();
-
-  const carrinhoItemsQtde = carrinho.reduce((sumAmount, product) => {
-    return (sumAmount = {
-      ...sumAmount,
-      [product.id]: product.qtde
-    });
-  }, {} as ICartItemsAmount);
-
-  useEffect(() => {
-    const loadProducts = async () => {
-      const produtos = await api
-        .get<IBling<IProdutos<IProduto<IProdFormatted>>>>(
-          `/produtos/json?apikey=${process.env.REACT_APP_API_KEY}&filters=tipo[P]&situacao=Ativo&imagem=S&estoque=S`
-        )
-        .then((resp) => {
-          if (resp.data.retorno.erros == undefined) {
-            return resp.data.retorno.produtos;
-          } else {
-            throw resp.data.retorno.erros[0].erro.msg;
-          }
-        })
-        .catch((erro) => {
-          console.error('Erro no método getProdutoPorCodigo(codigo) da classe BlingAPI: ');
-          console.error(erro);
-          throw erro.toString();
-        });
-
-      const formattedProducts = produtos
-        .filter(
-          ({ produto: p }: IProduto<IProdFormatted>) =>
-            !p.codigoPai &&
-            (p.imageThumbnail || p.imagem?.length) &&
-            slugiFy(`${p.categoria?.descricao}`) === `${categoria}`
-        )
-        .map(({ produto: p }: IProduto<IProdFormatted>) => ({
-          ...p,
-          precoFormatted: formatPrice(p.preco)
-        }));
-
-      setProducts(formattedProducts);
-    };
-
-    // async function loadProducts() {
-    //   try {
-    //     const {
-    //       data: {
-    //         retorno: { produtos }
-    //       }
-    //     } = await api.get<IBling<IProdutos<IProduto<IProdFormatted>>>>(
-    //       `/produtos/json?apikey=${process.env.REACT_APP_API_KEY}&filters=tipo[P]&situacao=Ativo&imagem=S&estoque=S`
-    //     );
-
-    //     produtos.filter(({ produto: p }: IProduto<IProdFormatted>) =>
-    //       console.log(slugiFy(`${p.categoria?.descricao}`), categoria)
-    //     );
-
-    //     const formattedProducts = produtos
-    //       .filter(
-    //         ({ produto: p }: IProduto<IProdFormatted>) =>
-    //           slugiFy(`${p.categoria?.descricao}`) === `${categoria}`
-    //       )
-    //       .map(({ produto: p }: IProduto<IProdFormatted>) => ({
-    //         ...p,
-    //         precoFormatted: formatPrice(p.preco)
-    //       }));
-
-    //     setProducts(formattedProducts);
-    //     setLoad(false);
-    //   } catch (error) {
-    //     console.log(error);
-    //     return <>asdfasd</>;
-    //   }
-    // }
-
-    loadProducts();
-  }, [categoria]);
+  // console.log('resourceProdutos', resourceProdutos.produtos.read());
 
   return (
     <>
@@ -110,15 +27,21 @@ const Produtos = () => {
 
       <Suspense
         fallback={
-          <section className="pt-2 pt-md-0 container-md">
-            <div className="row">
-              <div style={{ height: '55px' }} className="placeholder p-5">
-                a
+          <nav className="bg-secondary d-none d-md-block">
+            <div className="container">
+              <div className="row">
+                <ul className="menu placeholder-glow d-flex flex-row justify-content-between align-self-center">
+                  {[1, 2, 3, 4, 5].map((x) => (
+                    <li className="pt-2 pb-2 pe-4 ps-4 menu-item placeholder" key={x}>
+                      <span>menu</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          </section>
+          </nav>
         }>
-        <Menu />
+        <Menu resource={resource} />
       </Suspense>
 
       <section className="bg-white">
@@ -141,44 +64,44 @@ const Produtos = () => {
             </div>
           </div>
 
-          <div className="row row-cols-md-2">
-            <div className="col-2 col-md-2">asdfasdfasdfsd</div>
-            <div className="col-10 col-md-10">
-              <section className="row row-cols-2 row-cols-md-4 g-1 g-md-3">
-                {products?.length === 0 && (
-                  <div className="col-12 col-md-12 h4 text-center">Nenhum produto encontrado</div>
-                )}
-                {!products &&
-                  [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <div className="row row-cols-1 row-cols-md-2">
+            <div className="col-12 col-md-2 d-none d-md-block">
+              <h5 className="bg-primary p-2 text-white text-uppercase">Categorias</h5>
+            </div>
+            <div className="col-12 d-md-none d-block mb-2 d-flex justify-content-between">
+              <button className="btn btn-outline-primary btn-sm text-uppercase">
+                <i className="fas fa-filter"></i> filtros
+              </button>
+              {/* <button className="btn btn-outline-primary btn-sm text-uppercase">
+                <i className="fas fa-sort"></i> ordem
+              </button> */}
+            </div>
+            <div className="col-12 col-md-10">
+              <section className="row row-cols-2 row-cols-md-3 g-1 g-md-3">
+                <Suspense
+                  fallback={[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                     <div className="col" key={i}>
-                      <div className="card mb-3" aria-hidden="true">
+                      <div className="card shadow-md mb-3 rounded-0" aria-hidden="true">
+                        <ImageRenderer
+                          width={375}
+                          height={375}
+                          url="/loading.jpg"
+                          thumb="/loading.jpg"
+                        />
                         <div className="card-body">
-                          <span className="placeholder w-100 p-5">Loading</span>
-                          <h5 className="card-title placeholder-glow">
+                          <h5 className="card-title">
                             <span className="placeholder w-100">Loading</span>
                           </h5>
-                          <p className="card-text placeholder-glow">
+                          <p className="card-text">
                             <span className="placeholder d-block w-50 mb-1">Loading</span>
                             <span className="placeholder w-100 p-2">Loading</span>
                           </p>
                         </div>
                       </div>
                     </div>
-                  ))}
-
-                {products &&
-                  products?.map((rws, i) => (
-                    <Card
-                      key={i}
-                      id={rws.id}
-                      descricao={rws.descricao}
-                      precoPor={rws.precoFormatted}
-                      codigo={rws.codigo}
-                      imagens={rws.imagem}
-                      addItemClick={() => addItem(rws.codigo)}
-                      itens={carrinhoItemsQtde}
-                    />
-                  ))}
+                  ))}>
+                  <ProdutosLista resource={resourceProdutos} />
+                </Suspense>
               </section>
             </div>
           </div>
