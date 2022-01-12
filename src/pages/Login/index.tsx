@@ -10,8 +10,8 @@ const Login = () => {
       <Topo />
       <section className="bg-white border-top pt-3">
         <div className="container-md">
-          <div className="row row-cols-1 row-cols-md-2">
-            <div className="col border-end">
+          <div className="row row-cols-1 row-cols-md-2 justify-content-center">
+            <div className="col">
               <form className="mb-3 p-0 p-md-5">
                 <div className="card bg-secondary rounded-0 border-0">
                   <div className="card-header fw-bold h4 text-white">Fazer Login</div>
@@ -46,7 +46,7 @@ const Login = () => {
                 </div>
               </form>
             </div>
-            <div className="col">
+            {/* <div className="col">
               <form className="mb-3 p-0 p-md-5">
                 <div className="card bg-secondary rounded-0 border-0">
                   <div className="card-header fw-bold h4 text-white">Cadastre-se</div>
@@ -68,7 +68,7 @@ const Login = () => {
                   </div>
                 </div>
               </form>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

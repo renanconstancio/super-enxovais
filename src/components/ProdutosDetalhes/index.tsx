@@ -31,8 +31,6 @@ interface IProdFormatted extends IProdutoProps {
   variacoesFormatted?: IVariacao[];
 }
 
-let i = 1;
-
 const GradeVariations = ({ data }: { data: IVariacao[] | IVariacao | any }) => {
   console.log('data', data);
 

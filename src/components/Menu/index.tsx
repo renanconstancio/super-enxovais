@@ -1,15 +1,11 @@
 import './style.scss';
 
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { ICategoria, TCategoriaProps } from '../../interfaces';
 import { slugiFy } from '../../utils/slugiFy';
 import { getTree } from '../../utils/getTree';
 
 const Menu = ({ resource }: any) => {
-  const { pathname } = useLocation();
-
-  const page = pathname.split('/')[1];
-
   let key = 1;
 
   const CategoriaMenuTree = ({ node }: any) => {
@@ -59,22 +55,18 @@ const Menu = ({ resource }: any) => {
   const formattedCategorias = getTree(categoriasReduce, 'idCategoriaPai')[0].children;
 
   return (
-    <>
-      <nav className="bg-secondary d-none d-md-block">
-        <div className="container">
-          <div className="row">
-            <ul className="menu d-flex flex-row justify-content-between align-self-center">
-              {!!formattedCategorias &&
-                formattedCategorias.map((rws: any, i: any) => (
-                  <CategoriaMenuTree node={rws} key={i} />
-                ))}
-            </ul>
-          </div>
+    <nav className="bg-secondary d-none d-md-block">
+      <div className="container">
+        <div className="row">
+          <ul className="menu d-flex flex-row justify-content-between align-self-center">
+            {!!formattedCategorias &&
+              formattedCategorias.map((rws: any, i: any) => (
+                <CategoriaMenuTree node={rws} key={i} />
+              ))}
+          </ul>
         </div>
-      </nav>
-      {/* {['carrinho'].indexOf(page) === -1 && (
-      )} */}
-    </>
+      </div>
+    </nav>
   );
 };
 

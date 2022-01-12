@@ -1,6 +1,5 @@
 import { useCarrinho } from '../../hooks/useCarrinho';
-import { IProduto, IProdutoProps } from '../../interfaces';
-import { formatPrice } from '../../utils/formart';
+import { IProdutoProps } from '../../interfaces';
 import Card from '../Card';
 
 interface IProdFormatted extends IProdutoProps {
@@ -23,7 +22,7 @@ const ProdutosLista = ({ resource }: any) => {
 
   const produtos = resource.produtos.read();
 
-  console.log(produtos);
+  // console.log(produtos);
 
   // const formattedProducts = produtos;
   // const formattedProducts = produtos
