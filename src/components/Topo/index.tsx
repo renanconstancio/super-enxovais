@@ -1,18 +1,25 @@
 import { Link, useLocation } from 'react-router-dom';
 import { boasVindas } from '../../utils/boasVindas';
 import CarrinhoCanvas from '../CarrinhoCanvas';
-import IconCar from '../IconCar';
+
 import MenuMobile from '../MenuMobile';
 import Search from '../Search';
 import createResource from '../../api/createResource';
 import { lazy, Suspense } from 'react';
+import { useCarrinho } from '../../hooks/useCarrinho';
 
 const MenuCanvas = lazy(() => import('../MenuCanvas'));
 
 const resource = createResource();
 
 const Topo = () => {
+  const { carrinho } = useCarrinho();
+
   const { pathname } = useLocation();
+
+  const qtdeCar = carrinho?.reduce((sumQtde, product) => {
+    return (sumQtde += product.qtde);
+  }, 0);
 
   const page = pathname.split('/')[1];
 
@@ -60,15 +67,20 @@ const Topo = () => {
             </div>
 
             <span
-              className="btn btn-sm"
               data-bs-toggle="offcanvas"
               data-bs-target="#carrinhoRight"
-              aria-controls="carrinhoRight">
+              aria-controls="carrinhoRight"
+              className="btn btn-sm position-relative w-50 text-center m-auto"
+              style={{ cursor: 'pointer' }}>
               <i
                 className="fas fa-shopping-cart text-primary"
                 style={{
                   fontSize: '25px'
                 }}></i>
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {qtdeCar}
+                <span className="visually-hidden">unread messages</span>
+              </span>
             </span>
           </section>
         </div>
@@ -119,7 +131,21 @@ const Topo = () => {
             </section>
             {['carrinho'].indexOf(page) === -1 && (
               <section className="col-md-auto text-center">
-                <IconCar />
+                <span
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#carrinhoRight"
+                  aria-controls="carrinhoRight"
+                  className="text-primary position-relative w-50 text-center m-auto"
+                  style={{ cursor: 'pointer' }}>
+                  <i className="fas fa-shopping-bag fa-2x"></i>
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {qtdeCar}
+                    <span className="visually-hidden">unread messages</span>
+                  </span>
+                </span>
+                <Link to="/carrinho" className="d-block fw-bold display-h6 btn-link">
+                  Meu Carrinho
+                </Link>
               </section>
             )}
           </div>
