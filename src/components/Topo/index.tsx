@@ -98,7 +98,7 @@ const Topo = () => {
         </div>
       </section>
 
-      <section className="d-none d-md-block bg-white py-2 sticky-top">
+      <section className="d-none d-md-block bg-white py-2">
         <div className="container-md">
           <div className="row align-items-center justify-content-between">
             <section className="col-2">
